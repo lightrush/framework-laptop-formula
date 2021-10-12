@@ -7,6 +7,11 @@ wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/
 ```
 
 
+## Get the source
+
+Clone this formula or download it and extract it somewhere.
+
+
 ## Run the complete Framework Laptop formula
 
 From the root directory of the formula, where this README.md is, run:
