@@ -7,7 +7,7 @@ wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/
 ```
 
 
-## Run the Framework Laptop formula
+## Run the complete Framework Laptop formula
 
 From the root directory of the formula, where this README.md is, run:
 ```
