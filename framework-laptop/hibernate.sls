@@ -66,8 +66,9 @@ hibernate_swap_fstab:
 hibernate_grub_resume:
   file.replace:
     - name: /etc/default/grub
-    - pattern: '^GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"$|^GRUB_CMDLINE_LINUX_DEFAULT="quiet splash resume=UUID=.* resume_offset=.*"$'
-    - repl: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash resume=UUID={{resume_uud}} resume_offset={{resume_offset}}"'
+    - pattern: '^GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} resume=UUID=.* resume_offset=.*"$'
+    - repl: 'GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} resume=UUID={{resume_uud}} resume_offset={{resume_offset}}"'
+    - append_if_not_found: True
     - require:
       - cmd: hibernate_swap_on
 
