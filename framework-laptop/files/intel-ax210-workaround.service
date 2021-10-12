@@ -1,0 +1,21 @@
+[Unit]
+Description=Intel AX210 workaround
+
+DefaultDependencies=no
+
+Before=network-pre.target
+Wants=network-pre.target
+
+Wants=systemd-modules-load.service local-fs.target
+After=systemd-modules-load.service local-fs.target
+
+Conflicts=shutdown.target
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c "mv -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm.renamed-by-salt ; rmmod iwlmvm ; rmmod iwlwifi ; modprobe iwlwifi"
+
+[Install]
+WantedBy=multi-user.target
