@@ -4,23 +4,23 @@
 
 ### What is SaltStack?
 
-For people unfamiliar with SaltStack and here's a brief blurb on what it is.
+Here's a brief bulrb for people unfamiliar with SaltStack explaining what it is.
 
-SaltStack (Salt for short) is a configuration management system used anywhere from personal machines to large cloud deployments. It defines a language and a set of built-in APIs that allow to describe configuration as code. At the very basic  level it does what one could do with Bash scripts with less typing and fewer errors. Its utility grows upwards from there. It allows for code reuse, better maintainability, modularity, config dependencies and a lot more that we don't need to go into for this short blurb.
+SaltStack (Salt for short) is a configuration management system used from extremely large cloud deployments to personal machines and anywhere in-between. It defines a language and a set of built-in APIs that allow to describe configuration as code. At the very basic  level it does what one could do with Bash scripts with less typing and fewer errors. Its utility grows upwards from there. It allows for code reuse, better maintainability, modularity, config dependencies and a lot more that we don't need to go into for this short blurb.
 
 
 ### Why Salt?
 
 In short, because it's easier and more maintainable than a bunch of Bash scripts. For example if we want to install the TLP package on Ubuntu, with Bash we'd have to write this somewhere in our scripts:
 
-```
+```bash
 sudo apt install -y tlp
 ```
 
 That's easy enough. But what if we want to also support Fedora? We'd now have to differentiate between distributions and use the correct package manager call:
 
-```
-LINUX_DISTRIBUTION=${get_linux_distribution}
+```bash
+LINUX_DISTRIBUTION=${get_linux_distribution} # Here we casually outsource the job of determining the distribution to another function.
 case "$LINUX_DISTRIBUTION" in
         fedora)
             yum install --yes tlp
@@ -36,18 +36,18 @@ case "$LINUX_DISTRIBUTION" in
 esac
 ```
 
-We went from a one-liner to a paragraph. And that would only grow with any other distribution handling. And with any other function which has different invocations across multiple distributions.
+We went from a one-liner to a paragraph. And that would only grow with any other distribution handling. And with any other function which has different invocation across multiple distributions.
 
 If we were to do this with Salt, we would use its built-in API for package management and say:
 
-```
-# The first line is arbitrary ID for our own use
+```yaml
+# The first line is an arbitrary ID for our own use.
 tlp_package_installed:
-  pkg.installed:
-    - name: tlp
+  pkg.installed: # Name of built-in function used.
+    - name: tlp  # An arg to the pkg.installed function passing the name of the package we want installed.
 ```
 
-That's it. This will work on most popular distributions without any further work on our end. Salt is by no means the only tool capable of doing this. Ansible and Puppet are the other two popular options. I know Salt best. :D
+That's it. This will work on most popular distributions and derivatives without any further work on our end. Salt is by no means the only tool capable of doing this. Ansible and Puppet are the other two (more) popular options but I know Salt best. :D
 
 And that's why we use Salt.
 
