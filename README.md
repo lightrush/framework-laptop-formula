@@ -6,7 +6,7 @@
 
 Here's a brief bulrb for people unfamiliar with SaltStack explaining what it is.
 
-SaltStack (Salt for short) is a configuration management system used from extremely large cloud deployments to personal machines and anywhere in-between. It defines a language and a set of built-in APIs that allow to describe configuration as code. At the very basic  level it does what one could do with Bash scripts with less typing and fewer errors. Its utility grows upwards from there. It allows for code reuse, better maintainability, modularity, config dependencies and a lot more that we don't need to go into for this short blurb.
+SaltStack (Salt for short) is a configuration management system used across extremely large cloud deployments to personal machines and anywhere in-between. It defines a language and a set of built-in APIs that allow to describe configuration as code. At the very basic  level it does what one could do with Bash scripts with less typing and fewer errors. Its utility grows upwards from there. It allows for code reuse, better maintainability, modularity, config dependencies and a lot more that we don't need to go into for this short blurb.
 
 
 ### Why Salt?
