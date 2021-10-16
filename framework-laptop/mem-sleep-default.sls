@@ -1,7 +1,9 @@
 mem_sleep_default_grub_config:
-  file.append:
+  file.replace:
     - name: /etc/default/grub
-    - text: 'GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} mem_sleep_default=deep"'
+    - pattern: '^GRUB_CMDLINE_LINUX_DEFAULT="\${GRUB_CMDLINE_LINUX_DEFAULT} mem_sleep_default=.*"$'
+    - repl: 'GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} mem_sleep_default=deep"'
+    - append_if_not_found: True
 
 mem_sleep_default_grub_update:
   cmd.run:
