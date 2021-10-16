@@ -1,0 +1,3 @@
+# Enable TRIM on the 1GB Framework Storage Expansion Card.
+# The 256GB model may have a different product ID.
+ACTION=="add|change", ATTRS{idVendor}=="13fe", ATTRS{idProduct}=="6500", SUBSYSTEM=="scsi_disk", ATTR{provisioning_mode}="unmap"
