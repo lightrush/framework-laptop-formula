@@ -4,7 +4,7 @@ intel_ax210_workaround_service_installed:
     - source: salt://framework-laptop/files/intel-ax210-workaround.service
 
   module.run:
-    - name: service.systemctl_reload
+    - service.systemctl_reload: []
     - onchanges:
       - file: intel_ax210_workaround_service_installed
 
