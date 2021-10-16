@@ -66,7 +66,7 @@ hibernate_swap_fstab:
 hibernate_grub_resume:
   file.replace:
     - name: /etc/default/grub
-    - pattern: '^GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} resume=UUID=.* resume_offset=.*"$'
+    - pattern: '^GRUB_CMDLINE_LINUX_DEFAULT="\${GRUB_CMDLINE_LINUX_DEFAULT} resume=UUID=.* resume_offset=.*"$'
     - repl: 'GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} resume=UUID={{resume_uud}} resume_offset={{resume_offset}}"'
     - append_if_not_found: True
     - require:
@@ -81,8 +81,8 @@ hibernate_update_grub:
 hibernate_suspend_mode:
   file.replace:
     - name: /etc/systemd/sleep.conf
-    - pattern: '^#SuspendMode=.*'
-    - repl: SuspendMode=suspend
+    - pattern: '^SuspendMode=.*'
+    - repl: 'SuspendMode=suspend'
     - append_if_not_found: True
     - require:
       - file: hibernate_grub_resume
@@ -91,7 +91,7 @@ hibernate_suspend_mode:
 hibernate_suspend_state:
   file.replace:
     - name: /etc/systemd/sleep.conf
-    - pattern: '^#SuspendState=.*'
+    - pattern: '^SuspendState=.*'
     - repl: SuspendState=disk
     - append_if_not_found: True
     - require:
