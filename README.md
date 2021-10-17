@@ -97,6 +97,21 @@ salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
 ```
 
 
+### Apply user-specific states
+
+Some states modify user-specific config like touchpad and mouse settings. For those we have to specify the user this config should be applied to. To apply those to the current user you can do:
+```
+sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"${USER}"' }}"
+```
+
+To apply config for user `different_user`:
+```
+sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"different_user"' }}"
+```
+
+If you try to apply a user-specific state without specifying a `desktop_user` as shown above, you'd get an error.
+
+
 ### Notes on hibernate/hybrid suspend
 
 The `hibernate` state would setup hybrid suspend which means your computer will write your RAM's contents **every time you close the lid**. This obviously ensures no data is lost, but also wears out your SSD. It may or may not be what you want. Use your own judgement as to whether you use it as-is or modify the behaviour.
