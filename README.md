@@ -1,4 +1,4 @@
-# Salt (SaltStack) formula for setting up Ubuntu on the Framework Laptop
+# Salt (SaltStack) formula for setting up Ubuntu 20.04 (for now) on the Framework Laptop
 
 ## FAQ
 
