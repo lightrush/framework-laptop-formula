@@ -1,8 +1,9 @@
 include:
-  - .intel-ax210-workaround
+  - .framework-sec-trim-enable
+  - .grub-decrease-menu-timeout
   - .hibernate
+  - .intel-audio-workaround
+  - .intel-ax210-workaround
   - .mem-sleep-default
   - .tlp
-  - .intel-audio-workaround
-  - .grub-decrease-menu-timeout
-  - .framework-sec-trim-enable
+  - .touchpad-suspend-workaround
