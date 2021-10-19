@@ -121,7 +121,7 @@ The `framework-sec-trim-enable` state adds the necessary `unmap` attribute to yo
 
 ### `grub-decrease-menu-timeout`
 
-The `grub-decrease-menu-timeout` state changes the timeout for the GRUB boot menu to 1 second. As the time of this writing, `/etc/grub.d/00_header` forces `GRUB_RECORDFAIL_TIMEOUT` when running on UEFI systems which the Framework Laptop generally is. The default value for this timeout is 30 seconds which is rather much, however disabling it altogether prevents us from being able to access GRUB as hotkeys do not work in UEFI mode for some reason. Hence the maintainers forcing `GRUB_RECORDFAIL_TIMEOUT` on UEFI. 1 second is short enough to allow access in emergency but does not impact the boot time too much.
+The `grub-decrease-menu-timeout` state changes the timeout for the GRUB boot menu to 1 second. As the time of this writing, `/etc/grub.d/00_header` forces `GRUB_RECORDFAIL_TIMEOUT` when running on UEFI systems which the Framework Laptop generally is. The default value for this timeout is 30 seconds which is rather much, however disabling it altogether prevents us from being able to access GRUB as hotkeys do not work in UEFI mode [in certain cases](https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1800722). Hence the maintainers forcing `GRUB_RECORDFAIL_TIMEOUT` on UEFI. 1 second is short enough to allow access in emergency but does not impact the boot time too much.
 
 
 ### `hibernate`
