@@ -1,0 +1,24 @@
+{# Import defaults, OS family map, OS map and OS codename map. #}
+{% import_yaml 'framework-laptop/defaults.yaml' as defaults %}
+{% import_yaml 'framework-laptop/osfamilymap.yaml' as osfamilymap %}
+{% import_yaml 'framework-laptop/osmap.yaml' as osmap %}
+{% import_yaml 'framework-laptop/oscodenamemap.yaml' as oscodenamemap %}
+
+{# Start with defaults, merge osfamilymap, then merge osmap, oscodenamemap, then merge pillar #}
+{% set framework = salt['grains.filter_by'](
+  defaults,
+  merge = salt['grains.filter_by'](
+    osfamilymap,
+    grain='os_family',
+    merge = salt['grains.filter_by'](
+      osmap,
+      grain='os',
+      merge = salt['grains.filter_by'](
+        oscodenamemap,
+        grain='oscodename',
+        merge = salt['pillar.get']('framework-laptop', {}),
+      ),
+    ),
+  ),
+  base='framework-laptop')
+%}

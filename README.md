@@ -97,6 +97,17 @@ salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
 ```
 
 
+### Override default values on the command line
+
+Some states are parametrized and have default values for those parameters specified
+in `defaults.yaml`. Those values can be overriden in various ways. One is via the
+command line, by specifying override values in pillar, like so:
+```
+sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.mem-sleep-default \
+    pillar='{"framework-laptop":{"mem_sleep_default": "s2idle"}}'
+```
+
+
 ### Apply user-specific states
 
 Some states modify user-specific config like touchpad and mouse settings. For those we have to specify the user this config should be applied to. To apply those to the current user you can do:

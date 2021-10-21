@@ -1,0 +1,18 @@
+# This is an example of how you can override default values in defaults.yaml
+# Technically nothing stops you from editing defaults.yaml directly and you
+# can absolutely do that. However using pillar for overriding is what you'll
+# need to do if you use this formula on a Salt master via git.
+
+framework-laptop:
+
+  # Override the default mem_sleep to s2idle since deep sleep
+  # is technically unsupported on Tiger Lake and we also use
+  # suspend-then-hibernate to limit battery drain after closing
+  # the lid.
+  mem_sleep_default: s2idle
+
+  # Override suspend type to use `freeze` (`s2idle`). See above.
+  hibernate:
+    suspend_then_hibernate:
+      suspend_state: freeze
+      hibernate_delay_sec: 1min

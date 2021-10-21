@@ -1,0 +1,47 @@
+# The values seen here are the defaults provided to parametrized
+# states. They can be changed here if you're using the formula
+# ad-hoc. They can be overriden via pillar on command line or
+# on your Salt master if you use the formula as part of your
+# larger Salt codebase.
+
+framework-laptop:
+
+  # Default mem sleep setting.
+  # Tiger Lake supposedly lacks S3 support, yet the Framework
+  # somehow manages to suspend to RAM. Still consider setting 
+  # this to `s2idle`. In conjucntion with hibernate, it might make 
+  # sense to go the Windows route of doing suspend then hibernate with
+  # `s2idle`. Would provide fast suspend/resume and would limit
+  # the amount of battery drain should the laptop be left
+  # suspended for extended period of time.
+  # Leaving as `deep` for now.
+  mem_sleep_default: deep
+
+  hibernate:
+    # Valid modes are `hibernate`, `hybrid_sleep`, `suspend_then_hibernate`
+    # `hibernate` doesn't do anything special after setting up `/swapfile`
+    # and enabling hibernate. You could add a button in GNOME via an
+    # extension to get a a hibernate item in your power menu. *Adding
+    # such an item has not been tested.* Hibernating via
+    # `systemctl hibernate` works fine. Setting the power button action to
+    # Hibernate also works as expected.
+    # The other two options function as described in the systemd manual:
+    # https://www.freedesktop.org/software/systemd/man/systemd-sleep.conf.html
+    mode: suspend_then_hibernate
+    suspend_then_hibernate:
+      # Useful states are `mem` and `freeze`
+      # `mem` means suspend to RAM or S3
+      # `freeze` means suspend to idle or S2 
+      # Since we're only going to spend `hibernate_delay_sec` suspended
+      # using freeze to avoid suspend to RAM issues could be a worthy
+      # tradeoff.
+      #
+      # NB: suspend_state interacts with mem_sleep_default.
+      # If the values specified do not match, one will take
+      # precedence. Limited testing shows it's mem_sleep_default.
+      suspend_state: mem
+      hibernate_delay_sec: 180min
+  
+  # The number of seconds the `grub-decrease-menu-timeout` state will
+  # decrease the GRUB menu timeout to.
+  grub_recordfail_timeout: "1"

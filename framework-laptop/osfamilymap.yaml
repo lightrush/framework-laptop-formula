@@ -1,0 +1,5 @@
+# Put OS family defaults overrides here
+# Example:
+DEADDEAD:
+  # Where's docker on DEADDEAD OS family?
+  docker_executable: /deaddead/bin/docker

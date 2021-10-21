@@ -28,10 +28,9 @@ fingerprint-reader-deb-{{ package }}-absent:
       - cmd: fingerprint-reader-package-{{ package }}-installed
 {%- endfor %}
 
-fingerprint-reader-service-running:
-  service.running:
+fingerprint-reader-service-enabled:
+  service.enabled:
     - name: fprintd
-    - enable: True
     - watch:
       - cmd: fingerprint-reader-package-fprintd-installed
 

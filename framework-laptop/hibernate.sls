@@ -1,3 +1,4 @@
+{% from "framework-laptop/map.jinja" import framework with context %}
 
 {% set swapfile = "/swapfile" %}
 {% set swapfile_exists = salt['file.file_exists'](swapfile) %}
@@ -78,21 +79,89 @@ hibernate_update_grub:
     - onchanges:
       - file: hibernate_grub_resume
 
-hibernate_suspend_mode:
+hibernate_polkit_enabled:
+  file.managed:
+    - name: /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla
+    - source: salt://framework-laptop/files/com.ubuntu.enable-hibernate.pkla
+
+{% if framework.hibernate.mode == 'hybrid_sleep' %}
+
+{% set suspend_state = "disk" %}
+{% set handle_suspend_key = "suspend" %}
+{% set handle_lid_switch = "suspend" %}
+{% set handle_lid_switch_external_power = "suspend" %}
+
+{% elif framework.hibernate.mode == 'suspend_then_hibernate' %}
+
+{% set suspend_state = framework.hibernate.suspend_then_hibernate.suspend_state %}
+{% set handle_suspend_key = "suspend-then-hibernate" %}
+{% set handle_lid_switch = "suspend-then-hibernate" %}
+{% set handle_lid_switch_external_power = "suspend-then-hibernate" %}
+
+hibernate-hibernate-delay-sec:
   file.replace:
     - name: /etc/systemd/sleep.conf
-    - pattern: '^SuspendMode=.*'
-    - repl: 'SuspendMode=suspend'
+    - pattern: '^HibernateDelaySec=.*'
+    - repl: HibernateDelaySec={{ framework.hibernate.suspend_then_hibernate.hibernate_delay_sec }}
     - append_if_not_found: True
     - require:
       - file: hibernate_grub_resume
       - cmd: hibernate_update_grub
 
-hibernate_suspend_state:
+{% elif framework.hibernate.mode == 'hibernate' %}
+
+{% set suspend_state ="mem standby freeze" %}
+{% set handle_suspend_key = "suspend" %}
+{% set handle_lid_switch = "suspend" %}
+{% set handle_lid_switch_external_power = "suspend" %}
+
+{% endif %}
+
+hibernate-suspend-mode:
+  file.replace:
+    - name: /etc/systemd/sleep.conf
+    - pattern: '^SuspendMode=.*'
+    - repl: SuspendMode=suspend
+    - append_if_not_found: True
+    - require:
+      - file: hibernate_grub_resume
+      - cmd: hibernate_update_grub
+
+hibernate-suspend-state:
   file.replace:
     - name: /etc/systemd/sleep.conf
     - pattern: '^SuspendState=.*'
-    - repl: SuspendState=disk
+    - repl: SuspendState={{ suspend_state }}
+    - append_if_not_found: True
+    - require:
+      - file: hibernate_grub_resume
+      - cmd: hibernate_update_grub
+
+hibernate-handle-suspend-key:
+  file.replace:
+    - name: /etc/systemd/logind.conf
+    - pattern: '^HandleSuspendKey=.*'
+    - repl: HandleSuspendKey={{ handle_suspend_key }}
+    - append_if_not_found: True
+    - require:
+      - file: hibernate_grub_resume
+      - cmd: hibernate_update_grub
+
+hibernate-handle-lid-switch:
+  file.replace:
+    - name: /etc/systemd/logind.conf
+    - pattern: '^HandleLidSwitch=.*'
+    - repl: HandleLidSwitch={{ handle_lid_switch }}
+    - append_if_not_found: True
+    - require:
+      - file: hibernate_grub_resume
+      - cmd: hibernate_update_grub
+
+hibernate-handle-lid-switch-external-power:
+  file.replace:
+    - name: /etc/systemd/logind.conf
+    - pattern: '^HandleLidSwitchExternalPower=.*'
+    - repl: HandleLidSwitchExternalPower={{ handle_lid_switch_external_power }}
     - append_if_not_found: True
     - require:
       - file: hibernate_grub_resume
