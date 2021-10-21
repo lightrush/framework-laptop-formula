@@ -1,0 +1,7 @@
+--- debian/libfprint-2-2.install.orig	2021-10-21 03:54:44.449132186 +0000
++++ debian/libfprint-2-2.install	2021-10-21 03:55:12.446094452 +0000
+@@ -1,2 +1,3 @@
+ lib/udev/hwdb.d/
+-usr/lib/${DEB_HOST_MULTIARCH}/libfprint-[0-9].so.*
++usr/lib/${DEB_HOST_MULTIARCH}/libfprint-*.so.*
++

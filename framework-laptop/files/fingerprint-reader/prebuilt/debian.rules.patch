@@ -1,0 +1,11 @@
+--- debian/rules.orig	2021-10-21 03:15:31.553422538 +0000
++++ debian/rules	2021-10-21 03:45:49.774081386 +0000
+@@ -8,7 +8,7 @@
+ 
+ # Configuration arguments
+ CONFIG_ARGS = \
+-	-Dudev_hwdb_dir=/lib/udev/hwdb.d \
++	-Dudev_rules_dir=/lib/udev/rules.d \
+ 	-Ddrivers=all \
+ 	-Dgtk-examples=false
+ 

@@ -6,3 +6,4 @@ include:
   - .mem-sleep-default
   - .tlp
   - .touchpad-suspend-workaround
+  - .fingerprint-reader

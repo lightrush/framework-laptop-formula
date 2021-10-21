@@ -114,6 +114,11 @@ If you try to apply a user-specific state without specifying a `desktop_user` as
 
 ## Available states
 
+### `fingerprint-reader`
+
+The `fingerprint-reader` state installs the needed packages for the Frameworks's fingerprint reader from a collection of prebuilt deb files provided by the community. You can add your fingerprint using `Settings > Users > Fingerprint Login` after applying this state.
+
+
 ### `framework-sec-trim-enable`
 
 The `framework-sec-trim-enable` state adds the necessary `unmap` attribute to your Storage Expansion Card (SEC) via a udev rule. This allows the SEC SSD to be trimmed by the normal `fstrim.service` to help it maintain performance and endurance.
