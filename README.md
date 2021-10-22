@@ -1,5 +1,25 @@
 # Salt (SaltStack) formula for setting up Ubuntu 20.04 (for now) on the Framework Laptop
 
+## TL;DR, but ideally read past this section first
+
+In order to setup Ubuntu 20.04.3 with working WiFi, fingerprint
+reader etc., after installing the OS run this:
+```
+sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi
+wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh
+wget -O framework-laptop-formula-main.zip https://github.com/lightrush/framework-laptop-formula/archive/refs/heads/main.zip && unzip framework-laptop-formula-main.zip
+cd framework-laptop-formula-main
+sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop
+```
+
+If you also want hibernate with all the defaults, which you should read about below, also run:
+```
+sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate && sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
+```
+
+Reboot your computer after that.
+
+
 ## FAQ
 
 ### What is SaltStack?
@@ -80,20 +100,22 @@ Clone this formula or download it and extract it somewhere.
 
 From the root directory of the formula, where this README.md is, run:
 ```
-salt-call --local --file-root="$(pwd)" state.apply framework-laptop
+sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop
 ```
+
+Reboot your computer after applying.
 
 
 ### Apply an individual state
 
 From the root directory of the formula, where this README.md is, run:
 ```
-salt-call --local --file-root="$(pwd)" state.apply framework-laptop.[STATE NAME]
+sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.[STATE NAME]
 ```
 
 Example:
 ```
-salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
+sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
 ```
 
 
@@ -127,7 +149,7 @@ If you try to apply a user-specific state without specifying a `desktop_user` as
 
 ### `fingerprint-reader`
 
-The `fingerprint-reader` state installs the needed packages for the Frameworks's fingerprint reader from a collection of prebuilt deb files provided by the community. You can add your fingerprint using `Settings > Users > Fingerprint Login` after applying this state.
+The `fingerprint-reader` state installs the needed packages for the Frameworks's fingerprint reader from a collection of prebuilt deb files provided by the community. You can add your fingerprint using `Settings > Users > Fingerprint Login` after applying this state. Rebooting may be required after enabling fingerprint authentication.
 
 
 ### `framework-sec-trim-enable`
@@ -142,7 +164,7 @@ The `grub-decrease-menu-timeout` state changes the timeout for the GRUB boot men
 
 ### `hibernate`
 
-The `hibernate` state would setup `/swapfile` with size as much as your RAM + 1GB. It would then add it to GRUB and update the GRUB config. Finaly, the state would configure systemd to do hybrid suspend. That is suspend to S3 **and** hibernate. This behaviour guarantees no loss of data if you forget your laptop suspended and its battery runs out. It will also wear your SSD every time you suspend, whereas normal suspend wouldn't. Personally I consider that a decent tradeoff. Currently this is not parametrized so you'd have to modify the state if you wish to change the type of suspend. This state may not be what most people want which is why it isn't applied by default. If you wish to use it, [apply it individually.](#apply-an-individual-state) Note that the `hibernate` state has to be applied twice if the `/swapfile` wasn't setup or it was too small and was recreated. The first application sets up `/swapfile`. The second adds the relevant kernel resume arguments.
+The `hibernate` state would setup `/swapfile` with size as much as your RAM + 1GB. It would then add it to GRUB and update the GRUB config. Finaly, the state would configure systemd to do hybrid suspend. That is suspend to S3 **and** hibernate. This behaviour guarantees no loss of data if you forget your laptop suspended and its battery runs out. It will also wear your SSD every time you suspend, whereas normal suspend wouldn't. Personally I consider that a decent tradeoff. Currently this is not parametrized so you'd have to modify the state if you wish to change the type of suspend. This state may not be what most people want which is why it isn't applied by default. If you wish to use it, [apply it individually.](#apply-an-individual-state) Note that the `hibernate` state **has to be applied twice** if the `/swapfile` wasn't setup or it was too small and was recreated. The first application sets up `/swapfile`. The second adds the relevant kernel resume arguments.
 
 
 ### `intel-audio-workaround`
@@ -178,3 +200,8 @@ The `touchpad-click-method` state enables 2 and 3-finger clicks for the touchpad
 ### `touchpad-suspend-workaround`
 
 The `touchpad-suspend-workaround` state applies a workaround for the occasional touchpad (driver?) malfunction after suspend. It adds a hook to the systemd's sleep system which unloads the `i2c_hid` kernel module prior to suspend and loads it back on resume. This is new and I haven't confirmed if it resolves the issue but so far I haven't encountered it after adding it.
+
+
+## Credits
+
+Lots of credit goes to the whole [Framework DIY Linux community.](https://community.frame.work/c/diy-edition/linux/)
