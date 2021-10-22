@@ -14,3 +14,10 @@ intel_ax210_workaround_service_running:
     - enable: True
     - watch:
       - module: intel_ax210_workaround_service_installed
+
+intel_ax210_workaround_wait_for_network:
+  cmd.run:
+    - name: /bin/bash -c 'while ! nslookup google.com 8.8.8.8 &> /dev/null ; do echo No internet connection. Waiting... ; sleep 10 ; done'
+    - unless: nslookup google.com 8.8.8.8
+    - onchanges:
+      - service: intel_ax210_workaround_service_running

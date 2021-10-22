@@ -1,6 +1,8 @@
 tlp_package_installed:
   pkg.installed:
     - name: tlp
+    - refresh: True
+    - retry: True
 
 tlp_service_running:
   service.running:
