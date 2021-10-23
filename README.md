@@ -31,7 +31,7 @@ Afterwards, you should have:
 - TLP installed and enabled
 - Touchpad suspend workarond
 - Working fingerprint reader
-- Hibernate, if you opted to us it
+- Hibernate, if you opted to use it
 
 
 ## FAQ
