@@ -1,9 +1,13 @@
-# Salt (SaltStack) formula for setting up Ubuntu 20.04 (for now) on the Framework Laptop
+# Automated post-install setup of Ubuntu 20.04 on the Framework Laptop
+
+## CAUTION
+This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on a Framework with i5-1135G7, non-vPro AX210. It may or may not work on anything that it wasn’t tested on. Use your own judgement.
+
 
 ## TL;DR, but ideally read past this section first
 
 In order to setup Ubuntu 20.04.3 with working WiFi, fingerprint
-reader etc., after installing the OS run this:
+reader etc., run the following after installing the OS:
 ```
 sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi
 wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh
@@ -19,8 +23,26 @@ sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hiberna
 
 Reboot your computer after that.
 
+Afterwards, you should have:
+
+- 1 second GRUB menu timeout instead of 30 in case you use /boot on LVM
+- Intel HD audio mic TRRS jack workaround
+- Intel AX210 persistent workaround (doesn’t break on update of - linux-firmware)
+- Suspend to RAM
+- TLP installed and enabled
+- Touchpad suspend workarond
+- Working fingerprint reader
+- Hibernate, if you opted to us it
+
 
 ## FAQ
+
+### What is this?
+
+This is a piece of software in the form of a [Salt (SaltStack)](#what-is-saltstack) formula for performing post-install setup of Ubuntu 20.04 (for now) on the Framework Laptop. It configures the basic things that need configuring. Things like getting the Intel AX210 WiFi to work persistently, getting the fingerprint reader working, enabling better powersaving, etc. It eliminates the need to hunt down the documentation for each configuration or workaround and apply it manually.
+
+### Why?
+Because the number of Framework Laptops that will need Ubuntu 20.04 setup will be growing over time and I don't want to manually implement all the config and workarounds on each and every one. Maybe this could make someone else’s life easier as well.
 
 ### What is SaltStack?
 
