@@ -9,10 +9,10 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on a Framework with i5
 In order to setup Ubuntu 20.04.3 with working WiFi, fingerprint
 reader etc., run the following after installing the OS:
 ```
-sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi \
+sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi && /bin/bash -c 'while ! nslookup google.com 8.8.8.8 &> /dev/null ; do echo No internet connection. Waiting... ; sleep 10 ; done' \
   && wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh \
   && wget -O framework-laptop-formula-main.zip https://github.com/lightrush/framework-laptop-formula/archive/refs/heads/main.zip && unzip -o framework-laptop-formula-main.zip \
-  && sudo salt-call --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop test=True
+  && sudo salt-call --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop
 ```
 
 If you also want hibernate with all the defaults, which you should read about below, also run:
