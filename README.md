@@ -8,16 +8,16 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on a Framework with i5
 
 In order to setup Ubuntu 20.04.3 with working WiFi, fingerprint
 reader etc., run the following after installing the OS:
-```
+```bash
 sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi && /bin/bash -c 'while ! nslookup google.com 8.8.8.8 &> /dev/null ; do echo No internet connection. Waiting... ; sleep 10 ; done' \
   && wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh \
   && wget -O framework-laptop-formula-main.zip https://github.com/lightrush/framework-laptop-formula/archive/refs/heads/main.zip && unzip -o framework-laptop-formula-main.zip \
   && sudo salt-call --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop
 ```
 
-If you also want hibernate with all the defaults, which you should read about below, also run:
-```
-sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate && sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
+If you also want hibernate with all the defaults, which you should read about below, subsequently run:
+```bash
+sudo salt-call --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate && sudo salt-call --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate
 ```
 
 Reboot your computer after that.
@@ -32,6 +32,8 @@ Afterwards, you should have:
 - Touchpad suspend workarond
 - Working fingerprint reader
 - Hibernate, if you opted to use it
+
+For more features like 2/3-finger clicking or changing defaults, [read the rest.](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
 
 
 ## FAQ
@@ -117,7 +119,7 @@ This has only been tested on an Framework with non-vPro AX210 with Ubuntu 20.04.
 
 ### Install Salt
 
-```
+```bash
 wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh
 ```
 
@@ -130,7 +132,7 @@ Clone this formula or download it and extract it somewhere.
 ### Apply the complete Framework Laptop formula
 
 From the root directory of the formula, where this README.md is, run:
-```
+```bash
 sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop
 ```
 
@@ -140,12 +142,12 @@ Reboot your computer after applying.
 ### Apply an individual state
 
 From the root directory of the formula, where this README.md is, run:
-```
+```bash
 sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.[STATE NAME]
 ```
 
 Example:
-```
+```bash
 sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
 ```
 
@@ -155,7 +157,7 @@ sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hiberna
 Some states are parametrized and have default values for those parameters specified
 in `defaults.yaml`. Those values can be overriden in various ways. One is via the
 command line, by specifying override values in pillar, like so:
-```
+```bash
 sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.mem-sleep-default \
     pillar='{"framework-laptop":{"mem_sleep_default": "s2idle"}}'
 ```
@@ -164,12 +166,12 @@ sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.mem-sle
 ### Apply user-specific states
 
 Some states modify user-specific config like touchpad and mouse settings. For those we have to specify the user this config should be applied to. To apply those to the current user you can do:
-```
+```bash
 sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"${USER}"' }}"
 ```
 
 To apply config for user `different_user`:
-```
+```bash
 sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"different_user"' }}"
 ```
 
