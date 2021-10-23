@@ -4,16 +4,15 @@
 This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on a Framework with i5-1135G7, non-vPro AX210. It may or may not work on anything that it wasn’t tested on. Use your own judgement.
 
 
-## TL;DR, but ideally read past this section first
+## [TL;DR, but ideally the rest if this is your first time](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
 
 In order to setup Ubuntu 20.04.3 with working WiFi, fingerprint
 reader etc., run the following after installing the OS:
 ```
-sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi
-wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh
-wget -O framework-laptop-formula-main.zip https://github.com/lightrush/framework-laptop-formula/archive/refs/heads/main.zip && unzip framework-laptop-formula-main.zip
-cd framework-laptop-formula-main
-sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop
+sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi \
+  && wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh \
+  && wget -O framework-laptop-formula-main.zip https://github.com/lightrush/framework-laptop-formula/archive/refs/heads/main.zip && unzip -o framework-laptop-formula-main.zip \
+  && sudo salt-call --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop test=True
 ```
 
 If you also want hibernate with all the defaults, which you should read about below, also run:
@@ -99,9 +98,19 @@ And that's why we use Salt.
 In its most basic, a Salt formula is a self-contained module of Salt code that can achieve some well defined task, is usually configurable and reusable within other Salt code. That's Salt's terminology, not mine so that's that. This formula is intended to do the things needed to have Ubuntu to work well on the Framework Laptop.
 
 
+### Can I uninstall Salt after applying the formula?
+
+Yes. The changes will persist.
+
+
 ### What was this tested on?
 
-This has only been tested on an Framework with non-vPro AX210 with Ubuntu 20.04.3. This is what I have and I'm writing it to get that working. If you're using it on something else, it may or may not work, use your own discretion. 
+This has only been tested on an Framework with non-vPro AX210 with Ubuntu 20.04.3. This is what I have and I'm writing it to get that working. If you're using it on something else, it may or may not work, use your own discretion.
+
+
+### How do I use this?
+
+[Read on.](#usage)
 
 
 ## Usage
@@ -226,4 +235,6 @@ The `touchpad-suspend-workaround` state applies a workaround for the occasional 
 
 ## Credits
 
-Lots of credit goes to the whole [Framework DIY Linux community.](https://community.frame.work/c/diy-edition/linux/)
+Framework DIY Linux community. Lots of things. https://community.frame.work/c/diy-edition/linux/
+
+Henry Luengas. Python utility for deleting fingerprints from reader. https://github.com/hluengas/framework_scripts
