@@ -4,7 +4,7 @@
 This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on a Framework with i5-1135G7, non-vPro AX210. It may or may not work on anything that it wasn’t tested on. Use your own judgement.
 
 
-## [TL;DR, but ideally the rest if this is your first time](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
+## [TL;DR, but ideally read the rest if this is your first time](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
 
 In order to setup Ubuntu 20.04.3 with working WiFi, fingerprint
 reader etc., run the following after installing the OS:
@@ -26,7 +26,7 @@ Afterwards, you should have:
 
 - 1 second GRUB menu timeout instead of 30 in case you use /boot on LVM
 - Intel HD audio mic TRRS jack workaround
-- Intel AX210 persistent workaround (doesn’t break on update of - linux-firmware)
+- Intel AX210 persistent workaround (doesn’t break on update of linux-firmware)
 - Suspend to RAM
 - TLP installed and enabled
 - Touchpad suspend workarond
