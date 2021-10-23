@@ -3,7 +3,6 @@
 # ad-hoc. They can be overriden via pillar on command line or
 # on your Salt master if you use the formula as part of your
 # larger Salt codebase.
-
 framework-laptop:
 
   # Default mem sleep setting.
@@ -17,7 +16,9 @@ framework-laptop:
   # Leaving as `deep` for now.
   mem_sleep_default: deep
 
+
   hibernate:
+    
     # Valid modes are `hibernate`, `hybrid_sleep`, `suspend_then_hibernate`
     # `hibernate` doesn't do anything special after setting up `/swapfile`
     # and enabling hibernate. You could add a button in GNOME via an
@@ -29,6 +30,7 @@ framework-laptop:
     # https://www.freedesktop.org/software/systemd/man/systemd-sleep.conf.html
     mode: suspend_then_hibernate
     suspend_then_hibernate:
+      
       # Useful states are `mem` and `freeze`
       # `mem` means suspend to RAM or S3
       # `freeze` means suspend to idle or S2 
@@ -41,7 +43,14 @@ framework-laptop:
       # precedence. Limited testing shows it's mem_sleep_default.
       suspend_state: mem
       hibernate_delay_sec: 180min
-  
+
+
   # The number of seconds the `grub-decrease-menu-timeout` state will
   # decrease the GRUB menu timeout to.
   grub_recordfail_timeout: "1"
+
+
+  fingerprint_reader:
+    
+    # Set True to delete existing fingerprints upon initial setup.
+    delete_prints: False

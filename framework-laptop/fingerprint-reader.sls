@@ -1,3 +1,5 @@
+{% from "framework-laptop/map.jinja" import framework with context %}
+
 fingerprint-reader-libfprint-old-purged:
   pkg.purged:
     - name: libfprint-2-tod1
@@ -24,9 +26,7 @@ fingerprint-reader-pkgs-installed:
 fingerprint-reader-service-enabled1:
   service.enabled:
     - name: fprintd
-    - retry:
-      - attempts: 3
-      - interval: 5
+    - retry: True
     - onchanges:
       - pkg: fingerprint-reader-pkgs-installed
 
@@ -43,11 +43,11 @@ fingerprint-reader-delete-device-prints-util-installed:
     - mode: 755
     - require:
       - pkg: fingerprint-reader-pkgs-installed
-  
-fingerprint-reader-device-prints-delted:
+
+{% if framework.fingerprint_reader.delete_prints %}
+fingerprint-reader-device-prints-deleted:
   cmd.run:
     - name: /usr/local/bin/libfprint_delete_device_prints.py -d
-    - require:
-      - file: fingerprint-reader-delete-device-prints-util-installed
     - onchanges:
-      - pkg: fingerprint-reader-pkgs-installed
+      - file: fingerprint-reader-delete-device-prints-util-installed
+{% endif %}
