@@ -3,7 +3,7 @@
 hpet-disable-grub-config:
   file.replace:
     - name: /etc/default/grub
-    - pattern: '^GRUB_CMDLINE_LINUX_DEFAULT="\${GRUB_CMDLINE_LINUX_DEFAULT} hpet=.*"$\n'
+    - pattern: '^GRUB_CMDLINE_LINUX_DEFAULT="\${GRUB_CMDLINE_LINUX_DEFAULT} hpet=.*"$'
 {% if framework.hpet.disable %}
     - repl: 'GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} hpet=disable"'
 {% else %}
