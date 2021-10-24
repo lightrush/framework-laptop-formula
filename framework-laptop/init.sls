@@ -8,3 +8,4 @@ include:
   - .touchpad-suspend-workaround
   - .fingerprint-reader
   - .hpet-disable
+  - .salt-masterless

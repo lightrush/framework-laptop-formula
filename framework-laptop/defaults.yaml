@@ -62,3 +62,10 @@ framework-laptop:
     # TODO: If confirmed that this resolves NMI messages, change the
     # default to True.
     disable: False
+
+  salt:
+    # Set to False if you're using a salt master with this minion.
+    # If you don't know what this means, leave this to True.
+    # This will stop the salt minion from attempting to connect to
+    # a non-existent salt master every minute.
+    masterless: True
