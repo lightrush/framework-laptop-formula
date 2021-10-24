@@ -42,7 +42,7 @@ framework-laptop:
       # If the values specified do not match, one will take
       # precedence. Limited testing shows it's mem_sleep_default.
       suspend_state: mem
-      hibernate_delay_sec: 180min
+      hibernate_delay_sec: 120min
 
 
   # The number of seconds the `grub-decrease-menu-timeout` state will
@@ -54,3 +54,11 @@ framework-laptop:
     
     # Set True to delete existing fingerprints upon initial setup.
     delete_prints: False
+
+  hpet:
+    # Set to True to disable HPET. This an attempt to resolve spurious
+    # NMI watchdog messages like "Dazed and confused" which might be
+    # caused by HPET malfunctioning during suspend or hibernate.
+    # TODO: If confirmed that this resolves NMI messages, change the
+    # default to True.
+    disable: False

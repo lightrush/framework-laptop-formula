@@ -7,3 +7,4 @@ include:
   - .tlp
   - .touchpad-suspend-workaround
   - .fingerprint-reader
+  - .hpet-disable
