@@ -110,19 +110,19 @@ Yes. The changes will persist.
 This table describes the available states, and which distributions they have been tested with.
 If you're using it on something else, it may or may not work, use your own discretion. If you verify any of these states, please open a pull request updating the following table.
 
-|                             | Ubuntu 20.04 | Manjaro 21.1.6 |
-|-----------------------------|:------------:|:--------------:|
-| fingerprint-reader          | x            |                |
-| framework-sec-trim-enable   | x            |                |
-| grub-decrease-menu-timeout  | x            |                |
-| hibernate                   | x            | x              |
-| intel-audio-workaround      | x            |                |
-| intel-ax210-workaround      | x            |                |
-| mem-sleep-default           | x            |                |
-| mouse-accel-profile         | x            |                |
-| tlp                         | x            |                |
-| touchpad-click-method       | x            |                |
-| touchpad-suspend-workaround | x            |                |
+|                             | Ubuntu 20.04 | Manjaro 21.1.6                                                       |
+|-----------------------------|:------------:|:--------------------------------------------------------------------:|
+| fingerprint-reader          | yes          |                                                                      |
+| framework-sec-trim-enable   | yes          |                                                                      |
+| grub-decrease-menu-timeout  | yes          |                                                                      |
+| hibernate                   | yes          | [yes](https://github.com/lightrush/framework-laptop-formula/pull/12) |
+| intel-audio-workaround      | yes          |                                                                      |
+| intel-ax210-workaround      | yes          |                                                                      |
+| mem-sleep-default           | yes          |                                                                      |
+| mouse-accel-profile         | yes          |                                                                      |
+| tlp                         | yes          |                                                                      |
+| touchpad-click-method       | yes          |                                                                      |
+| touchpad-suspend-workaround | yes          |                                                                      |
 
 ### How do I use this?
 
