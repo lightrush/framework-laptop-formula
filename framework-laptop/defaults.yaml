@@ -5,20 +5,52 @@
 # larger Salt codebase.
 framework-laptop:
 
-  # Default mem sleep setting.
-  # Tiger Lake supposedly lacks S3 support, yet the Framework
-  # somehow manages to suspend to RAM. Still consider setting 
-  # this to `s2idle`. In conjucntion with hibernate, it might make 
-  # sense to go the Windows route of doing suspend then hibernate with
-  # `s2idle`. Would provide fast suspend/resume and would limit
-  # the amount of battery drain should the laptop be left
-  # suspended for extended period of time.
-  # Leaving as `deep` for now.
-  mem_sleep_default: deep
+  # Key `state_name` declared here corresponds to the state name
+  # defined in `state_name.include`. Only states with truthy values
+  # for `state_name.include` will be included in the main formula
+  # invocation via init.sls.
+  #
+  # To add a new state `new-state`, add a `new_key` for it here with a
+  # value for `new_key.include` set to the state name - `new-state`:
+  #
+  # new_key:
+  #   include: new-state
+  #
+  # To disable `some-state`, remove the corresponding key or assign
+  # a falsy value to corresponding `some_key.include`. Example:
+  #
+  # some_key:
+  #   include: False
+  #
+  # Key names should be valid Python variable names and thus cannot
+  # contain hyphens. At the time of this writing, all state file names
+  # use hyphens instead and are therefore invalid Python variable names.
+  # For this reason keys declared here cannot directly serve as state
+  # names and thus require adding the corresponding state name as a string
+  # to their `.include` keys.
+  #
+  # NB: `.include` just like any other key's value can be overriden
+  # in one of the os maps and/or pillar.
 
+  fingerprint_reader:
+    include: fingerprint-reader
+
+    # Set True to delete existing fingerprints upon initial setup.
+    delete_prints: False
+
+  framework_sec_trim_enable:
+    include: framework-sec-trim-enable
+
+  # The number of seconds the `grub-recordfail-timeout` state will
+  # decrease the GRUB menu timeout to.
+  grub_recordfail_timeout:
+    include: grub-decrease-menu-timeout
+
+    seconds: "1"
 
   hibernate:
-    
+    include: False
+
     # Valid modes are `hibernate`, `hybrid_sleep`, `suspend_then_hibernate`
     # `hibernate` doesn't do anything special after setting up `/swapfile`
     # and enabling hibernate. You could add a button in GNOME via an
@@ -29,11 +61,12 @@ framework-laptop:
     # The other two options function as described in the systemd manual:
     # https://www.freedesktop.org/software/systemd/man/systemd-sleep.conf.html
     mode: suspend_then_hibernate
+
     suspend_then_hibernate:
-      
+
       # Useful states are `mem` and `freeze`
       # `mem` means suspend to RAM or S3
-      # `freeze` means suspend to idle or S2 
+      # `freeze` means suspend to idle or S2
       # Since we're only going to spend `hibernate_delay_sec` suspended
       # using freeze to avoid suspend to RAM issues could be a worthy
       # tradeoff.
@@ -42,20 +75,12 @@ framework-laptop:
       # If the values specified do not match, one will take
       # precedence. Limited testing shows it's mem_sleep_default.
       suspend_state: mem
+
       hibernate_delay_sec: 120min
 
-
-  # The number of seconds the `grub-decrease-menu-timeout` state will
-  # decrease the GRUB menu timeout to.
-  grub_recordfail_timeout: "1"
-
-
-  fingerprint_reader:
-    
-    # Set True to delete existing fingerprints upon initial setup.
-    delete_prints: False
-
   hpet:
+    include: False
+
     # Set to True to disable HPET. This an attempt to resolve spurious
     # NMI watchdog messages like "Dazed and confused" which might be
     # caused by HPET malfunctioning during suspend or hibernate.
@@ -63,7 +88,34 @@ framework-laptop:
     # default to True.
     disable: False
 
+  intel_audio_workaround:
+    include: intel-audio-workaround
+
+  intel_ax210_workaround:
+    include: intel-ax210-workaround
+
+  # Default mem sleep setting.
+  # Tiger Lake supposedly lacks S3 support, yet the Framework
+  # somehow manages to suspend to RAM. Still consider setting
+  # this to `s2idle`. In conjucntion with hibernate, it might make
+  # sense to go the Windows route of doing suspend then hibernate with
+  # `s2idle`. Would provide fast suspend/resume and would limit
+  # the amount of battery drain should the laptop be left
+  # suspended for extended period of time.
+  # Leaving as `deep` for now.
+  mem_sleep_default:
+    include: mem-sleep-default
+    value: deep
+
+  tlp:
+    include: tlp
+
+  touchpad_suspend_workaround:
+    include: touchpad-suspend-workaround
+
   salt:
+    include: salt-masterless
+
     # Set to False if you're using a salt master with this minion.
     # If you don't know what this means, leave this to True.
     # This will stop the salt minion from attempting to connect to
