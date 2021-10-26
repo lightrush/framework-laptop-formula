@@ -52,8 +52,10 @@ framework-laptop:
     include: False
 
     # Valid modes are `hibernate`, `hybrid_sleep`, `suspend_then_hibernate`
-    # `hibernate` doesn't do anything special after setting up `/swapfile`
-    # and enabling hibernate. You could add a button in GNOME via an
+    # Learn more about sleep states here:
+    # https://www.kernel.org/doc/html/v4.18/admin-guide/pm/sleep-states.html
+    #
+    # To instantly enter hibernate mode, you could add a button in GNOME via an
     # extension to get a a hibernate item in your power menu. *Adding
     # such an item has not been tested.* Hibernating via
     # `systemctl hibernate` works fine. Setting the power button action to
@@ -64,6 +66,8 @@ framework-laptop:
 
     suspend_then_hibernate:
 
+      suspend_mode: suspend 
+
       # Useful states are `mem` and `freeze`
       # `mem` means suspend to RAM or S3
       # `freeze` means suspend to idle or S2
@@ -71,12 +75,54 @@ framework-laptop:
       # using freeze to avoid suspend to RAM issues could be a worthy
       # tradeoff.
       #
-      # NB: suspend_state interacts with mem_sleep_default.
-      # If the values specified do not match, one will take
-      # precedence. Limited testing shows it's mem_sleep_default.
+      # Setting suspend state to `mem` defaults to the value configured
+      # by mem_sleep_default:
+      # https://www.kernel.org/doc/html/v4.18/admin-guide/pm/sleep-states.html#basic-sysfs-interfaces-for-system-suspend-and-hibernation
       suspend_state: mem
 
+      # With this setting, the system will remain in `suspend` state even after
+      # the configured `hibernate_delay_sec` puts the system in hibernate mode.
+      hibernate_mode: suspend
+
+      hibernate_state: disk
+
       hibernate_delay_sec: 120min
+
+
+    hybrid_sleep:
+      # https://wiki.archlinux.org/title/Power_management#Hybrid-sleep_on_suspend_or_hibernation_request
+
+      suspend_mode: suspend 
+
+      suspend_state: disk
+
+      hibernate_mode: suspend
+
+      hibernate_state: disk
+
+      
+    hibernate:
+      # This is a more aggressive hibernate profile than `suspend_then_hibernate` or `hybrid_sleep`.
+      # Even though this mode will still go into suspend mode before hibernating,
+      # the differences are:
+      #  1. this profile will hibernate much sooner
+      #  2. this profile will shutdown the system once in hibernate mode.
+      #  3. this profile will skip suspend phase (and go straight to hibernate) when
+      #     the laptop lid is closed and the system is on battery power.
+      #     The default wait time should be 90sec on most systems.
+
+      suspend_mode: suspend
+
+      suspend_state: mem
+
+      # After the system enters hibernation and writes the image to disk
+      # It is appropriate for the system to fully shut down.
+      # Upon reboot, the image will be read back into memory.
+      hibernate_mode: shutdown
+
+      hibernate_state: disk
+
+      hibernate_delay_sec: 10min
 
   hpet:
     include: False
