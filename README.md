@@ -107,8 +107,23 @@ Yes. The changes will persist.
 
 ### What was this tested on?
 
-This has only been tested on an Framework with non-vPro AX210 with Ubuntu 20.04.3. This is what I have and I'm writing it to get that working. If you're using it on something else, it may or may not work, use your own discretion.
+This was tested on the Framework with both the i5 and i7 CPUs, with non-vPro wifi modules.
+The following table describes the available states, and which distributions they have been tested with.
+If you're using it on something else, it may or may not work, use your own discretion. If you verify any of these states, please open a pull request updating the following table.
 
+|                             | Ubuntu 20.04 | Manjaro 21.1.6                                                       |
+|-----------------------------|:------------:|:--------------------------------------------------------------------:|
+| fingerprint-reader          | yes          |                                                                      |
+| framework-sec-trim-enable   | yes          |                                                                      |
+| grub-decrease-menu-timeout  | yes          |                                                                      |
+| hibernate                   | yes          | [yes](https://github.com/lightrush/framework-laptop-formula/pull/12) |
+| intel-audio-workaround      | yes          |                                                                      |
+| intel-ax210-workaround      | yes          |                                                                      |
+| mem-sleep-default           | yes          |                                                                      |
+| mouse-accel-profile         | yes          |                                                                      |
+| tlp                         | yes          |                                                                      |
+| touchpad-click-method       | yes          |                                                                      |
+| touchpad-suspend-workaround | yes          |                                                                      |
 
 ### How do I use this?
 

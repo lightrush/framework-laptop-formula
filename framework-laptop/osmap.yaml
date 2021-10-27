@@ -13,7 +13,7 @@ Ubuntu:
     include: False #touchpad-suspend-workaround
 
 
-Manjaro???:
+Manjaro:
   # Can't possibly work with Ubuntu's deb packages and likely isn't
   # needed given that it's a rolling release and probably has recent
   # enough *fprint* packages.
