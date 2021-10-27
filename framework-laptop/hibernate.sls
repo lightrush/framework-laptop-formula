@@ -86,10 +86,10 @@ hibernate_polkit_enabled:
 
 {% if framework.hibernate.mode == 'hybrid_sleep' %}
 
-{% set suspend_state = framework.hibernate.hybrid_sleep.suspend_state %}
-{% set suspend_mode = framework.hibernate.hybrid_sleep.suspend_mode %}
-{% set hibernate_state = framework.hibernate.hybrid_sleep.hibernate_state %}
-{% set hibernate_mode = framework.hibernate.hybrid_sleep.hibernate_mode %}
+{% set suspend_mode = "suspend" %}
+{% set suspend_state = "disk" %}
+{% set hibernate_mode = "suspend" %}
+{% set hibernate_state = "disk" %}
 
 {% set handle_suspend_key = "suspend" %}
 {% set handle_lid_switch = "suspend" %}
@@ -97,10 +97,10 @@ hibernate_polkit_enabled:
 
 {% elif framework.hibernate.mode == 'suspend_then_hibernate' %}
 
+{% set suspend_mode = "suspend" %}
 {% set suspend_state = framework.hibernate.suspend_then_hibernate.suspend_state %}
-{% set suspend_mode = framework.hibernate.suspend_then_hibernate.suspend_mode %}
-{% set hibernate_state = framework.hibernate.suspend_then_hibernate.hibernate_state %}
-{% set hibernate_mode = framework.hibernate.suspend_then_hibernate.hibernate_mode %}
+{% set hibernate_mode = "shutdown" %}
+{% set hibernate_state = "disk" %}
 
 {% set handle_suspend_key = "suspend-then-hibernate" %}
 {% set handle_lid_switch = "suspend-then-hibernate" %}
@@ -118,24 +118,14 @@ hibernate-hibernate-delay-sec:
 
 {% elif framework.hibernate.mode == 'hibernate' %}
 
-{% set suspend_state = framework.hibernate.hibernate.suspend_state %}
-{% set suspend_mode = framework.hibernate.hibernate.suspend_mode %}
-{% set hibernate_state = framework.hibernate.hibernate.hibernate_state %}
-{% set hibernate_mode = framework.hibernate.hibernate.hibernate_mode %}
+{% set suspend_mode ="suspend" %}
+{% set suspend_state ="mem" %}
+{% set hibernate_mode = "shutdown" %}
+{% set hibernate_state = "disk" %}
 
-{% set handle_suspend_key = "suspend_then_hibernate" %}
-{% set handle_lid_switch = "hibernate" %}
-{% set handle_lid_switch_external_power = "suspend_then_hibernate" %}
-
-hibernate-hibernate-delay-sec:
-  file.replace:
-    - name: /etc/systemd/sleep.conf
-    - pattern: '^HibernateDelaySec=.*'
-    - repl: HibernateDelaySec={{ framework.hibernate.hibernate.hibernate_delay_sec }}
-    - append_if_not_found: True
-    - require:
-      - file: hibernate_grub_resume
-      - cmd: hibernate_update_grub
+{% set handle_suspend_key = "suspend" %}
+{% set handle_lid_switch = "suspend" %}
+{% set handle_lid_switch_external_power = "suspend" %}
 
 {% endif %}
 
@@ -178,6 +168,7 @@ hibernate-state:
     - require:
       - file: hibernate_grub_resume
       - cmd: hibernate_update_grub
+
 
 hibernate-handle-suspend-key:
   file.replace:

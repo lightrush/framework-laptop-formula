@@ -107,7 +107,8 @@ Yes. The changes will persist.
 
 ### What was this tested on?
 
-This table describes the available states, and which distributions they have been tested with.
+This was tested on the Framework with both the i5 and i7 CPUs, with non-vPro wifi modules.
+The following table describes the available states, and which distributions they have been tested with.
 If you're using it on something else, it may or may not work, use your own discretion. If you verify any of these states, please open a pull request updating the following table.
 
 |                             | Ubuntu 20.04 | Manjaro 21.1.6                                                       |
