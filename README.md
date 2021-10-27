@@ -12,12 +12,12 @@ reader etc., run the following after installing the OS:
 sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi && /bin/bash -c 'while ! nslookup google.com 8.8.8.8 &> /dev/null ; do echo No internet connection. Waiting... ; sleep 10 ; done' \
   && wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh \
   && wget -O framework-laptop-formula-main.zip https://github.com/lightrush/framework-laptop-formula/archive/refs/heads/main.zip && unzip -o framework-laptop-formula-main.zip \
-  && sudo salt-call --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop
+  && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop
 ```
 
 If you also want hibernate with all the defaults, which you should read about below, subsequently run:
 ```bash
-sudo salt-call --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate && sudo salt-call --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate
+sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate
 ```
 
 Reboot your computer after that.
@@ -68,11 +68,11 @@ case "$LINUX_DISTRIBUTION" in
         fedora)
             yum install --yes tlp
             ;;
-         
+
         ubuntu)
             apt install -y tlp
             ;;
- 
+
         *)
             echo Unsupported distribution
             exit 1
@@ -148,7 +148,7 @@ Clone this formula or download it and extract it somewhere.
 
 From the root directory of the formula, where this README.md is, run:
 ```bash
-sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop
+sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop
 ```
 
 Reboot your computer after applying.
@@ -158,12 +158,12 @@ Reboot your computer after applying.
 
 From the root directory of the formula, where this README.md is, run:
 ```bash
-sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.[STATE NAME]
+sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.[STATE NAME]
 ```
 
 Example:
 ```bash
-sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
+sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
 ```
 
 
@@ -173,7 +173,7 @@ Some states are parametrized and have default values for those parameters specif
 in `defaults.yaml`. Those values can be overriden in various ways. One is via the
 command line, by specifying override values in pillar, like so:
 ```bash
-sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.mem-sleep-default \
+sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.mem-sleep-default \
     pillar='{"framework-laptop":{"mem_sleep_default": "s2idle"}}'
 ```
 
@@ -182,12 +182,12 @@ sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.mem-sle
 
 Some states modify user-specific config like touchpad and mouse settings. For those we have to specify the user this config should be applied to. To apply those to the current user you can do:
 ```bash
-sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"${USER}"' }}"
+sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"${USER}"' }}"
 ```
 
 To apply config for user `different_user`:
 ```bash
-sudo salt-call --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"different_user"' }}"
+sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"different_user"' }}"
 ```
 
 If you try to apply a user-specific state without specifying a `desktop_user` as shown above, you'd get an error.
