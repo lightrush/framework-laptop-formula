@@ -69,32 +69,21 @@ framework-laptop:
     # disk, for a further reduction in battery usage in suspended state, with
     # the added backup of disk state in the event the laptop drains completely
     # while in suspend mode.
-    # 
+    #
     # suspend_then_hibernate:
     # This option sets the system to suspend mode (as it normally would upon
     # inactivity, the suspend button, or via `systemctl suspend`), however,
     # after the designated wait time it will then enter hibernate mode,
     # writing RAM state to disk and powering off the system. You can edit
     # the behavior of this mode below.
-    # 
+    #
     # You can learn about these options in the systemd manual:
     # https://www.freedesktop.org/software/systemd/man/systemd-sleep.conf.html
     mode: suspend_then_hibernate
 
     suspend_then_hibernate:
 
-      # Useful states are `mem` and `freeze`
-      # `mem` means suspend to RAM or S3
-      # `freeze` means suspend to idle or S2
-      # Since we're only going to spend `hibernate_delay_sec` suspended
-      # using freeze to avoid suspend to RAM issues could be a worthy
-      # tradeoff.
-      #
-      # Setting suspend state to `mem` defaults to the value configured
-      # by mem_sleep_default:
-      # https://www.kernel.org/doc/html/v4.18/admin-guide/pm/sleep-states.html#basic-sysfs-interfaces-for-system-suspend-and-hibernation
-      suspend_state: mem
-
+      # The time it the computer stays suspended before it hibernates.
       hibernate_delay_sec: 120min
 
   hpet:
