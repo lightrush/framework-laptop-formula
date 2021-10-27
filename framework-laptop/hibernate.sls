@@ -86,22 +86,14 @@ hibernate_polkit_enabled:
 
 {% if framework.hibernate.mode == 'hybrid_sleep' %}
 
-{% set suspend_mode = "suspend" %}
 {% set suspend_state = "disk" %}
-{% set hibernate_mode = "suspend" %}
-{% set hibernate_state = "disk" %}
-
 {% set handle_suspend_key = "suspend" %}
 {% set handle_lid_switch = "suspend" %}
 {% set handle_lid_switch_external_power = "suspend" %}
 
 {% elif framework.hibernate.mode == 'suspend_then_hibernate' %}
 
-{% set suspend_mode = "suspend" %}
 {% set suspend_state = framework.hibernate.suspend_then_hibernate.suspend_state %}
-{% set hibernate_mode = "shutdown" %}
-{% set hibernate_state = "disk" %}
-
 {% set handle_suspend_key = "suspend-then-hibernate" %}
 {% set handle_lid_switch = "suspend-then-hibernate" %}
 {% set handle_lid_switch_external_power = "suspend-then-hibernate" %}
@@ -118,11 +110,7 @@ hibernate-hibernate-delay-sec:
 
 {% elif framework.hibernate.mode == 'hibernate' %}
 
-{% set suspend_mode ="suspend" %}
-{% set suspend_state ="mem" %}
-{% set hibernate_mode = "shutdown" %}
-{% set hibernate_state = "disk" %}
-
+{% set suspend_state ="mem standby freeze" %}
 {% set handle_suspend_key = "suspend" %}
 {% set handle_lid_switch = "suspend" %}
 {% set handle_lid_switch_external_power = "suspend" %}
@@ -133,7 +121,7 @@ hibernate-suspend-mode:
   file.replace:
     - name: /etc/systemd/sleep.conf
     - pattern: '^SuspendMode=.*'
-    - repl: SuspendMode={{ suspend_mode }}
+    - repl: SuspendMode=suspend
     - append_if_not_found: True
     - require:
       - file: hibernate_grub_resume
@@ -148,27 +136,6 @@ hibernate-suspend-state:
     - require:
       - file: hibernate_grub_resume
       - cmd: hibernate_update_grub
-
-hibernate-mode:
-  file.replace:
-    - name: /etc/systemd/sleep.conf
-    - pattern: '^HibernateMode=.*'
-    - repl: HibernateMode={{ hibernate_mode }}
-    - append_if_not_found: True
-    - require:
-      - file: hibernate_grub_resume
-      - cmd: hibernate_update_grub
-
-hibernate-state:
-  file.replace:
-    - name: /etc/systemd/sleep.conf
-    - pattern: '^HibernateState=.*'
-    - repl: HibernateState={{ hibernate_state }}
-    - append_if_not_found: True
-    - require:
-      - file: hibernate_grub_resume
-      - cmd: hibernate_update_grub
-
 
 hibernate-handle-suspend-key:
   file.replace:

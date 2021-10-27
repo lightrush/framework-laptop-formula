@@ -97,7 +97,6 @@ framework-laptop:
 
       hibernate_delay_sec: 120min
 
-
   hpet:
     include: False
 
