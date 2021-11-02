@@ -93,7 +93,7 @@ hibernate_polkit_enabled:
 
 {% elif framework.hibernate.mode == 'suspend_then_hibernate' %}
 
-{% set suspend_state = framework.hibernate.suspend_then_hibernate.suspend_state %}
+{% set suspend_state = "mem standby freeze" %}
 {% set handle_suspend_key = "suspend-then-hibernate" %}
 {% set handle_lid_switch = "suspend-then-hibernate" %}
 {% set handle_lid_switch_external_power = "suspend-then-hibernate" %}
@@ -110,7 +110,8 @@ hibernate-hibernate-delay-sec:
 
 {% elif framework.hibernate.mode == 'hibernate' %}
 
-{% set suspend_state ="mem standby freeze" %}
+# Reset everything to default in case we've touched it before.
+{% set suspend_state = "mem standby freeze" %}
 {% set handle_suspend_key = "suspend" %}
 {% set handle_lid_switch = "suspend" %}
 {% set handle_lid_switch_external_power = "suspend" %}

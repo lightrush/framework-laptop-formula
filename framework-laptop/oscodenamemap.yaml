@@ -3,3 +3,10 @@
 DEADDEAD:
   # Where's docker on DEADDEAD OS family?
   docker_executable: /deaddead/bin/docker
+
+focal:
+  intel_ax210_workaround:
+    include: intel-ax210-workaround
+
+  touchpad_suspend_workaround:
+    include: touchpad-suspend-workaround

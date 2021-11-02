@@ -3,3 +3,34 @@
 DEADBEEF:
   # Where's docker on DEADBEEF OS?
   docker_executable: /deadbeef/bin/docker
+
+Ubuntu:
+  intel_ax210_workaround:
+    include: False
+
+  # For now assume it's only needed on focal
+  touchpad_suspend_workaround:
+    include: False #touchpad-suspend-workaround
+
+
+Manjaro:
+  # Can't possibly work with Ubuntu's deb packages and likely isn't
+  # needed given that it's a rolling release and probably has recent
+  # enough *fprint* packages.
+  fingerprint_reader:
+    include: False
+
+  # Is this needed on Manjaro? Someone test and flip if yes.
+  intel_audio_workaround:
+    include: False #intel-audio-workaround
+
+  # This shouldn't be need with a kernel above certain version.
+  # Not quite sure which version it is but I'd assume Manjaro
+  # has recent enough version where AX210 works out of the box?
+  intel_ax210_workaround:
+    include: False
+
+  # This may not be needed with recent enough kernel.
+  # Flip if needed.
+  touchpad_suspend_workaround:
+    include: False #touchpad-suspend-workaround
