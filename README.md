@@ -15,7 +15,7 @@ sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmm
   && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop
 ```
 
-If you also want hibernate with all the defaults, which you should read about below, subsequently run:
+If you also want hibernate with all the defaults, which you should read about below, subsequently run **twice**:
 ```bash
 sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate
 ```
