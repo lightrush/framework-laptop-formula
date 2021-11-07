@@ -5,6 +5,7 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on Frameworks with i5,
 
 
 ## CHANGELOG
+- Document `defaults.yaml` usage.
 - Enable graphics acceleration in VMware Workstation Player.
 - Workarounds relevant to Ubuntu 20.04 are only applied on 20.04. Applying the formula on 21.04 or above would skip those. This has not been tested on non-20.04.
 - `hibernate` was tested on Manjaro 21.1.6. It works and can be used.
@@ -171,6 +172,11 @@ Example:
 ```bash
 sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
 ```
+
+
+### Override default values in `defaults.yaml`
+
+Some states can be customized by changing the values of their parameters. The default values are defined in `defaults.yaml`. Each available parameter is documented in-line in that file. Editing `defaults.yaml` is the easiest way to change the behaviour of the formula. Thus `defaults.yaml` is the primary "user interface" for tuning the formula. The values set there can also be overriden at the command line or in pillar.
 
 
 ### Override default values on the command line
