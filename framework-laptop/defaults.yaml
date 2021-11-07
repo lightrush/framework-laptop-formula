@@ -129,3 +129,9 @@ framework-laptop:
     # This will stop the salt minion from attempting to connect to
     # a non-existent salt master every minute.
     masterless: True
+
+  vmware_graphics_acceleration:
+    # Include by default since the state is idempotent. It would only
+    # apply if `desktop_user` is specified and the VMware preferences
+    # file exists.
+    include: vmware-graphics-acceleration

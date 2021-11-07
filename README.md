@@ -1,8 +1,14 @@
 # Automated post-install setup of Ubuntu 20.04 on the Framework Laptop
 
 ## CAUTION
-This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on a Framework with i5-1135G7, non-vPro AX210. It may or may not work on anything that it wasn’t tested on. Use your own judgement.
+This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on Frameworks with i5, i7 and non-vPro AX210. It may or may not work on anything that it wasn’t tested on. Work has been done to make it safe for 21.04 and above, but the authors haven't tested it! Use your own judgement.
 
+
+## CHANGELOG
+- Enable graphics acceleration in VMware Workstation Player.
+- Workarounds relevant to Ubuntu 20.04 are only applied on 20.04. Applying the formula on 21.04 or above would skip those. This has not been tested on non-20.04.
+- `hibernate` was tested on Manjaro 21.1.6. It works and can be used.
+...
 
 ## [TL;DR, but ideally read the rest if this is your first time](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
 
@@ -248,6 +254,11 @@ The `touchpad-click-method` state enables 2 and 3-finger clicks for the touchpad
 ### `touchpad-suspend-workaround`
 
 The `touchpad-suspend-workaround` state applies a workaround for the occasional touchpad (driver?) malfunction after suspend. It adds a hook to the systemd's sleep system which unloads the `i2c_hid` kernel module prior to suspend and loads it back on resume. This is new and I haven't confirmed if it resolves the issue but so far I haven't encountered it after adding it.
+
+
+### `vmware-graphics-acceleration`
+
+The `vmware-graphics-acceleration` state enables 3D acceleration in VMware Workstation (Player) if its config file was found in the user's directory specified by `desktop_user`, [see](#apply-user-specific-states). The state is a no-op in case a config file wasn't found or `desktop_user` was not defined.
 
 
 ## Credits
