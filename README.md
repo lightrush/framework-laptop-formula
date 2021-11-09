@@ -131,6 +131,7 @@ If you're using it on something else, it may or may not work, use your own discr
 | tlp                         | yes          |                                                                      |
 | touchpad-click-method       | yes          |                                                                      |
 | touchpad-suspend-workaround | yes          |                                                                      |
+| vmware-graphics-acceleration | yes          |                                                                      |
 
 ### How do I use this?
 
