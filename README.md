@@ -22,7 +22,7 @@ sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmm
   && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop
 ```
 
-If you also want hibernate with all the defaults, which you should read about below, subsequently run **twice**:
+If you also want [hibernate](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#hibernate), you can run the snippet below. By default it enables suspend-then-hibernate with 120 minutes delay. That can changed in [`defaults.yaml`](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#override-default-values-in-defaultsyaml).
 ```bash
 sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate
 ```
