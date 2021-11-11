@@ -29,7 +29,7 @@ hibernate_kill_swap:
 hibernate_create_swap_file:
   cmd.run:
     - name: fallocate -l {{swap_size}}G {{swapfile}}
-    - unless: '[[ -f {{swapfile}} ]]'
+    - unless: '[ -f {{swapfile}} ]'
 
 hibernate_chmod_swap:
   file.managed:
