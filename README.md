@@ -5,6 +5,7 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on Frameworks with i5,
 
 
 ## CHANGELOG
+- Only apply AX210 workaround if it's found on the system.
 - Document `defaults.yaml` usage.
 - Enable graphics acceleration in VMware Workstation Player.
 - Workarounds relevant to Ubuntu 20.04 are only applied on 20.04. Applying the formula on 21.04 or above would skip those. This has not been tested on non-20.04.
