@@ -1,3 +1,6 @@
+{% set ax210_vendor_device = '8086:2725' %}
+{% if ax210_vendor_device in salt['cmd.run' ]("lspci -n") %}
+
 intel_ax210_workaround_service_installed:
   file.managed:
     - name: /etc/systemd/system/intel-ax210-workaround.service
@@ -21,3 +24,5 @@ intel_ax210_workaround_wait_for_network:
     - unless: nslookup google.com 8.8.8.8
     - onchanges:
       - service: intel_ax210_workaround_service_running
+
+{% endif %}
