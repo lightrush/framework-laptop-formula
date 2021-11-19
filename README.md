@@ -5,6 +5,7 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on Frameworks with i5,
 
 
 ## CHANGELOG
+- Increase the number of retries fingerprint auth allows.
 - Disable AX on AX210 when running kernel 5.11.
 - Only apply AX210 workaround if it's found on the system.
 - Document `defaults.yaml` usage.

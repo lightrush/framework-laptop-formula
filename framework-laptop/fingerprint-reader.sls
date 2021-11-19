@@ -3,7 +3,7 @@
 fingerprint-reader-libfprint-old-purged:
   pkg.purged:
     - name: libfprint-2-tod1
-    
+
 fingerprint-reader-prereqs-installed:
   pkg.installed:
     - name: gir1.2-gusb-1.0
@@ -51,3 +51,9 @@ fingerprint-reader-device-prints-deleted:
     - onchanges:
       - file: fingerprint-reader-delete-device-prints-util-installed
 {% endif %}
+
+fingerprint-reader-pam-config:
+  file.replace:
+    - name: /etc/pam.d/common-auth
+    - pattern: '^(auth.*pam_fprintd.so.*max_tries=)(\d+)(\s+.*)$'
+    - repl: '\g<1>{{ framework.fingerprint_reader.max_tries }}\g<3>'

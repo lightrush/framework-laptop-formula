@@ -35,6 +35,12 @@ framework-laptop:
   fingerprint_reader:
     include: fingerprint-reader
 
+    # Set the number of retries for authentication via fingerprint.
+    # The Framework's fingerprint reader is decent but doesn't read
+    # as consistently as say a smartphone's so a couple of more tries
+    # available makes for a better experience.
+    max_tries: 3
+
     # Set True to delete existing fingerprints upon initial setup.
     delete_prints: False
 
