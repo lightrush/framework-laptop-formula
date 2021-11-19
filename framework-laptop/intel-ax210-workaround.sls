@@ -1,5 +1,9 @@
+# Only apply when AX210 is found.
 {% set ax210_vendor_device = '8086:2725' %}
 {% if ax210_vendor_device in salt['cmd.run' ]("lspci -n") %}
+# Only apply on Linux 5.11. Newer kernels seem to be working
+# better or require different workarounds like firmware upgrades.
+{% if salt['grains.get' ]("kernelrelease").startswith("5.11") %}
 
 intel_ax210_workaround_service_installed:
   file.managed:
@@ -25,4 +29,17 @@ intel_ax210_workaround_wait_for_network:
     - onchanges:
       - service: intel_ax210_workaround_service_running
 
+# Disable AX since that seems to be causing errors for some.
+intel_ax210_workaround_modprobe_conf_installed:
+  file.managed:
+    - name: /etc/modprobe.d/intel-ax210-workaround.conf
+    - source: salt://framework-laptop/files/intel-ax210-workaround.conf
+
+intel_ax210_workaround_initramfs_updated:
+  cmd.run:
+    - name: update-initramfs -u
+    - onchanges:
+      - file: intel_ax210_workaround_modprobe_conf_installed
+
+{% endif %}
 {% endif %}
