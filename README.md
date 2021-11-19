@@ -29,6 +29,7 @@ If you also want [hibernate](https://github.com/lightrush/framework-laptop-formu
 ```bash
 sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate
 ```
+NB: You may need to disable Secure Boot for hibernate to function.
 
 Reboot your computer after that.
 
@@ -229,6 +230,8 @@ The `grub-decrease-menu-timeout` state changes the timeout for the GRUB boot men
 ### `hibernate`
 
 The `hibernate` state would setup `/swapfile` with size as much as your RAM + 1GB. It would then add it to GRUB and update the GRUB config. Finaly, the state would configure systemd to do suspend-then-hibernate with 2 hours delay. This is a decent decent default and simmilar to the behaviour under Windows. Since the suspend period is limited to 2 hours, the officially supported suspend method - `s2idle` - can be used which suspends and resumes instantly but consumes ~3%/hr. If you wish to use hibernate, [apply it individually.](#apply-an-individual-state) Note that the `hibernate` state **has to be applied twice** if the `/swapfile` wasn't setup or it was too small and was recreated. The first application sets up `/swapfile`. The second adds the relevant kernel resume arguments. Applying it more than twice has no further effect past the first two applications.
+
+NB: You may need to disable Secure Boot for hibernate to function.
 
 
 ### `intel-audio-workaround`
