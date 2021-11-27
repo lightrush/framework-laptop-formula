@@ -266,7 +266,7 @@ The `touchpad-click-method` state enables 2 and 3-finger clicks for the touchpad
 
 ### `touchpad-suspend-workaround`
 
-The `touchpad-suspend-workaround` state applies a workaround for the occasional touchpad (driver?) malfunction after suspend. It adds a hook to the systemd's sleep system which unloads the `i2c_hid` kernel module prior to suspend and loads it back on resume. This is new and I haven't confirmed if it resolves the issue but so far I haven't encountered it after adding it.
+The `touchpad-suspend-workaround` state applies a workaround for the occasional touchpad (driver?) malfunction after suspend. It adds a hook to the systemd's sleep system which unloads the `i2c_hid` kernel module prior to suspend and loads it back on resume. Alternatively you could disable PS2 emulation from the BIOS, however that would would leave you without touchpad in operating systems that do not understand HID like Windows Setup.
 
 
 ### `vmware-graphics-acceleration`
