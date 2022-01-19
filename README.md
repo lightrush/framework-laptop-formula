@@ -36,7 +36,7 @@ Following that, pull the latest formula and execute it again in order to remove 
 In order to setup Ubuntu 20.04.3 with working WiFi, fingerprint
 reader etc., run the following after installing the OS:
 ```bash
-sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi && /bin/bash -c 'while ! nslookup google.com 8.8.8.8 &> /dev/null ; do echo No internet connection. Waiting... ; sleep 10 ; done' \
+if echo $(uname -r) | grep -q 5.11 ; then sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi && /bin/bash -c 'while ! nslookup google.com 8.8.8.8 &> /dev/null ; do echo No internet connection. Waiting... ; sleep 10 ; done' ; fi \
   && wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh \
   && wget -O framework-laptop-formula-main.zip https://github.com/lightrush/framework-laptop-formula/archive/refs/heads/main.zip && unzip -o framework-laptop-formula-main.zip \
   && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop
