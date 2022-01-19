@@ -108,6 +108,9 @@ framework-laptop:
   intel_ax210_workaround:
     include: intel-ax210-workaround
 
+  intel_xe_tearing_workaround:
+    include: intel-xe-tearing-workaround
+
   # Default mem sleep setting.
   # Tiger Lake supposedly lacks S3 support, yet the Framework
   # somehow manages to suspend to RAM. Still consider setting
