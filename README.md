@@ -1,7 +1,7 @@
 # Automated post-install setup of Ubuntu 20.04 on the Framework Laptop
 
 ## CAUTION
-This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on Frameworks with i5, i7 and non-vPro AX210. It may or may not work on anything that it wasn’t tested on. Work has been done to make it safe for 21.04 and above, but the authors haven't tested it! Use your own judgement.
+This has only been tested on Ubuntu 20.04.3 (Linux 5.11 and Linux 5.13), on Frameworks with i5, i7 and non-vPro AX210. It may or may not work on anything that it wasn’t tested on. Work has been done to make it safe for 21.04 and above, but the authors haven't tested it! Use your own judgement.
 
 
 ## CHANGELOG
