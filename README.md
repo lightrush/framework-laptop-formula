@@ -5,6 +5,7 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on Frameworks with i5,
 
 
 ## CHANGELOG
+- Updated TL;DR command to handle Linux 5.13 and check for AX210.
 - Remove fingerprint reader prebuilt packages if updated fprintd is found.
 - Remove AX210 workaround after upgrade to Linux 5.13.
 - Increase the number of retries fingerprint auth allows.
@@ -36,7 +37,7 @@ Following that, pull the latest formula and execute it again in order to remove 
 In order to setup Ubuntu 20.04.3 with working WiFi, fingerprint
 reader etc., run the following after installing the OS:
 ```bash
-if echo $(uname -r) | grep -q 5.11 ; then sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi && /bin/bash -c 'while ! nslookup google.com 8.8.8.8 &> /dev/null ; do echo No internet connection. Waiting... ; sleep 10 ; done' ; fi \
+if lspci -n | grep -q '8086:2725' && echo $(uname -r) | grep -q 5.11 ; then sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi && /bin/bash -c 'while ! nslookup google.com 8.8.8.8 &> /dev/null ; do echo No internet connection. Waiting... ; sleep 10 ; done' ; fi \
   && wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh \
   && wget -O framework-laptop-formula-main.zip https://github.com/lightrush/framework-laptop-formula/archive/refs/heads/main.zip && unzip -o framework-laptop-formula-main.zip \
   && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop
