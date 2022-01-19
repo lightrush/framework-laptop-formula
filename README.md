@@ -5,6 +5,7 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on Frameworks with i5,
 
 
 ## CHANGELOG
+- Remove fingerprint reader prebuilt packages if updated fprintd is found.
 - Remove AX210 workaround after upgrade to Linux 5.13.
 - Increase the number of retries fingerprint auth allows.
 - Disable AX on AX210 when running kernel 5.11.

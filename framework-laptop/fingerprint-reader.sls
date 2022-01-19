@@ -1,5 +1,15 @@
 {% from "framework-laptop/map.jinja" import framework with context %}
 
+{% set fprintd_prebuilt_vertion = "1:1.94.0-1" %}
+{% set fprintd_versions = salt['pkg.list_repo_pkgs' ]("fprintd")["fprintd"] %}
+{% set fprintd_version_good = "1.90.9-1~ubuntu20.04.1" %}
+
+{% do fprintd_versions.remove(fprintd_prebuilt_vertion) if fprintd_prebuilt_vertion in fprintd_versions %}
+
+{% set fprintd_version = fprintd_versions[0] %}
+{% set fprintd_needs_prebuilt = (salt['pkg.version_cmp' ](fprintd_version, fprintd_version_good) == -1) %}
+
+{% if fprintd_needs_prebuilt %}
 fingerprint-reader-libfprint-old-purged:
   pkg.purged:
     - name: libfprint-2-tod1
@@ -23,18 +33,47 @@ fingerprint-reader-pkgs-installed:
     - require:
       - pkg: fingerprint-reader-prereqs-installed
 
-fingerprint-reader-service-enabled1:
+{% else %}
+fingerprint-reader-pkgs-prebuilt-purged:
+  pkg.purged:
+    - pkgs:
+      - libfprint-2-2: 1.94.1-1
+      - libfprint-2-doc: 1.94.1-1
+      - fprintd: 1.94.0-1
+      - fprintd-doc: 1.94.0-1
+      - gir1.2-fprint-2.0: 1.94.1-1
+      - libpam-fprintd: 1.94.0-1
+
+fingerprint-reader-pkgs-installed:
+  pkg.latest:
+    - pkgs:
+      - libfprint-2-2
+      - libfprint-2-doc
+      - libfprint-2-tod1
+      - fprintd
+      - fprintd-doc
+      - gir1.2-fprint-2.0
+      - libpam-fprintd
+    - refresh: True
+    - retry: True
+    - require:
+      - pkg: fingerprint-reader-pkgs-prebuilt-purged
+
+{% endif %}
+
+fingerprint-reader-service-enabled:
   service.enabled:
     - name: fprintd
     - retry: True
-    - onchanges:
+    - require:
       - pkg: fingerprint-reader-pkgs-installed
 
-fingerprint-reader-pam-auth-enabled1:
+fingerprint-reader-pam-auth-enabled:
   cmd.run:
     - name: pam-auth-update --enable fprintd
-    - onchanges:
+    - require:
       - pkg: fingerprint-reader-pkgs-installed
+    - unless: grep '^auth.*pam_fprintd.so.*$' /etc/pam.d/common-auth
 
 fingerprint-reader-delete-device-prints-util-installed:
   file.managed:
@@ -57,3 +96,5 @@ fingerprint-reader-pam-config:
     - name: /etc/pam.d/common-auth
     - pattern: '^(auth.*pam_fprintd.so.*max_tries=)(\d+)(\s+.*)$'
     - repl: '\g<1>{{ framework.fingerprint_reader.max_tries }}\g<3>'
+    - require:
+      - cmd: fingerprint-reader-pam-auth-enabled
