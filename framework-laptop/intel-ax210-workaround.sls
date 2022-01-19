@@ -41,5 +41,40 @@ intel_ax210_workaround_initramfs_updated:
     - onchanges:
       - file: intel_ax210_workaround_modprobe_conf_installed
 
+{% else %}
+
+intel_ax210_workaround_service_dead:
+  service.dead:
+    - name: intel-ax210-workaround
+    - enable: False
+
+intel_ax210_workaround_service_removed:
+  file.absent:
+    - name: /etc/systemd/system/intel-ax210-workaround.service
+    - require:
+      - service: intel_ax210_workaround_service_dead
+
+  module.run:
+    - name: service.systemctl_reload
+    - onchanges:
+      - file: intel_ax210_workaround_service_removed
+
+intel_ax210_workaround_firmware_restored:
+  cmd.run:
+    - name: /bin/sh -c "mv -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm.renamed-by-salt /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; rmmod iwlmvm ; rmmod iwlwifi ; modprobe iwlwifi"
+    - unless: '[ -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ]'
+    - require:
+      - service: intel_ax210_workaround_service_dead
+
+intel_ax210_workaround_modprobe_conf_removed:
+  file.absent:
+    - name: /etc/modprobe.d/intel-ax210-workaround.conf
+
+intel_ax210_workaround_initramfs_updated:
+  cmd.run:
+    - name: update-initramfs -u
+    - onchanges:
+      - file: intel_ax210_workaround_modprobe_conf_removed
+
 {% endif %}
 {% endif %}

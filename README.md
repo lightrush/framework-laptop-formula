@@ -5,6 +5,7 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on Frameworks with i5,
 
 
 ## CHANGELOG
+- Remove AX210 workaround after upgrade to Linux 5.13.
 - Increase the number of retries fingerprint auth allows.
 - Disable AX on AX210 when running kernel 5.11.
 - Only apply AX210 workaround if it's found on the system.
@@ -13,6 +14,21 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11), on Frameworks with i5,
 - Workarounds relevant to Ubuntu 20.04 are only applied on 20.04. Applying the formula on 21.04 or above would skip those. This has not been tested on non-20.04.
 - `hibernate` was tested on Manjaro 21.1.6. It works and can be used.
 ...
+
+## ATTENTION: IN CASE OF BROKEN WI-FI
+
+If you've already applied this formula and your WiFi suddenly stopped working around mid-January 2022, without explanation, chances that your system got upgraded to Linux 5.13. The AX210 workaround used for Linux 5.11 breaks WiFi on 5.13. In order to get your WiFi working, execute the following:
+
+```bash
+sudo systemctl disable intel-ax210-workaround.service
+sudo mv /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm.renamed-by-salt /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm
+sudo rmmod iwlmvm
+sudo rmmod iwlwifi
+sudo modprobe iwlwifi
+```
+
+Following that, pull the latest formula and execute it again in order to remove the workaround completely. Executing the command from the TL;DR in a clean location should also do the trick.
+
 
 ## [TL;DR, but ideally read the rest if this is your first time](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
 
