@@ -1,9 +1,35 @@
 # Only apply when AX210 is found.
 {% set ax210_vendor_device = '8086:2725' %}
 {% if ax210_vendor_device in salt['cmd.run' ]("lspci -n") %}
+
+{% set linux_generic = salt['pkg.version' ]("linux-generic-hwe-20.04") %}
+{% set linux_lowlatency = salt['pkg.version' ]("linux-lowlatency-hwe-20.04") %}
+
+# Update kernel to latest. This should give us Linux 5.13
+{% if linux_generic %}
+intel_ax210_workaround_linux_generic_latest:
+  pkg.latest:
+    - name: linux-generic-hwe-20.04
+    - refresh: True
+{% endif %}
+
+{% if linux_lowlatency %}
+intel_ax210_workaround_linux-lowlatency_latest:
+  pkg.latest:
+    - name: linux-lowlatency-hwe-20.04
+    - refresh: True
+{% endif %}
+
+# Get the updated version.
+{% set linux_generic = salt['pkg.version' ]("linux-generic-hwe-20.04") %}
+{% set linux_lowlatency = salt['pkg.version' ]("linux-lowlatency-hwe-20.04") %}
+{% set linux_version = linux_generic or linux_lowlatency %}
+
 # Only apply on Linux 5.11. Newer kernels seem to be working
 # better or require different workarounds like firmware upgrades.
-{% if salt['grains.get' ]("kernelrelease").startswith("5.11") %}
+# We should have Linux 5.13 installed at this point but for now assume
+# some systems might be somehow back in time.
+{% if linux_version.startswith("5.11") %}
 
 intel_ax210_workaround_service_installed:
   file.managed:
@@ -62,7 +88,7 @@ intel_ax210_workaround_service_removed:
 intel_ax210_workaround_firmware_restored:
   cmd.run:
     - name: /bin/sh -c "mv -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm.renamed-by-salt /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; rmmod iwlmvm ; rmmod iwlwifi ; modprobe iwlwifi"
-    - unless: '[ -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ]'
+    - unless: '[ ! -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm.renamed-by-salt ]'
     - require:
       - service: intel_ax210_workaround_service_dead
 
