@@ -1,7 +1,7 @@
 # Automated post-install setup of Ubuntu 20.04 on the Framework Laptop
 
 ## CAUTION
-This has only been tested on Ubuntu 20.04.3 (Linux 5.11 and Linux 5.13), on Frameworks with i5, i7 and non-vPro AX210. It may or may not work on anything that it wasn’t tested on. Work has been done to make it safe for 21.04 and above, but the authors haven't tested it! Use your own judgement.
+This has been tested on Ubuntu 20.04.3 (Linux 5.11 and Linux 5.13), on Frameworks with i5, i7 and non-vPro AX210 by a good number of users. It may or may not work on anything that it wasn’t tested on. Work has been done to make it safe for 21.04 and above, but the authors haven't tested it! Use your own judgement.
 
 
 ## CHANGELOG
@@ -19,7 +19,8 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11 and Linux 5.13), on Fram
 - `hibernate` was tested on Manjaro 21.1.6. It works and can be used.
 ...
 
-## ATTENTION: IN CASE OF BROKEN WI-FI
+
+## ATTENTION: In case of broken WiFi on Intel AX210
 
 If you've already applied this formula and your WiFi suddenly stopped working around mid-January 2022, without explanation, chances that your system got upgraded to Linux 5.13. The AX210 workaround used for Linux 5.11 breaks WiFi on 5.13. In order to get your WiFi working, execute the following:
 
@@ -33,25 +34,29 @@ sudo modprobe iwlwifi
 
 Following that, pull the latest formula and execute it again in order to remove the workaround completely. Executing the command from the TL;DR in a clean location should also do the trick.
 
+If this is your first rodeo and your WiFi isn't working after fresh Ubuntu 20.04.3 install, get it running by doing this:
+```bash
+sudo mv -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm.renamed-by-salt
+sudo rmmod iwlmvm
+sudo rmmod iwlwifi
+sudo modprobe iwlwifi
+```
 
 ## [TL;DR, but ideally read the rest if this is your first time](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
 
 In order to setup Ubuntu 20.04.3 with working WiFi, fingerprint
-reader etc., run the following after installing the OS:
+reader etc., connect to the internet, then run the following:
 ```bash
-if lspci -n | grep -q '8086:2725' && echo $(uname -r) | grep -q 5.11 ; then sudo rm -f /lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm ; sudo rmmod iwlmvm ; sudo rmmod iwlwifi ; sudo modprobe iwlwifi && /bin/bash -c 'while ! nslookup google.com 8.8.8.8 &> /dev/null ; do echo No internet connection. Waiting... ; sleep 10 ; done' ; fi \
-  && wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh \
-  && wget -O framework-laptop-formula-main.zip https://github.com/lightrush/framework-laptop-formula/archive/refs/heads/main.zip && unzip -o framework-laptop-formula-main.zip \
-  && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop
+wget -O /tmp/framework-laptop-tldr.sh https://raw.githubusercontent.com/lightrush/framework-laptop-formula/main/framework-laptop-tldr.sh && bash /tmp/framework-laptop-tldr.sh
 ```
 
 If you also want [hibernate](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#hibernate), you can run the snippet below. By default it enables suspend-then-hibernate with 120 minutes delay. That can changed in [`defaults.yaml`](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#override-default-values-in-defaultsyaml).
 ```bash
 sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate
 ```
-NB: You may need to disable Secure Boot for hibernate to function.
+NB: You have to disable Secure Boot for hibernate to function.
 
-Reboot your computer after that.
+Now reboot your Framework.
 
 Afterwards, you should have:
 
@@ -164,10 +169,19 @@ If you're using it on something else, it may or may not work, use your own discr
 
 ## Usage
 
+### Make sure your installation is up-to-date
+
+Upgrade your Ubuntu packages via the `Software Updater` or by doing:
+
+```bash
+sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get -y dist-upgrade
+```
+
+
 ### Install Salt
 
 ```bash
-wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh
+if ! sudo apt-get -y install salt-minion ; then wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh ; fi
 ```
 
 
