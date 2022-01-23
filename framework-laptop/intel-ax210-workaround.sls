@@ -1,9 +1,10 @@
 # Only apply when AX210 is found.
 {% set ax210_vendor_device = '8086:2725' %}
-{% if ax210_vendor_device in salt['cmd.run' ]("lspci -n") %}
+{% if ax210_vendor_device in salt['cmd.run']("lspci -n") %}
 
-{% set linux_generic = salt['pkg.version' ]("linux-generic-hwe-20.04") %}
-{% set linux_lowlatency = salt['pkg.version' ]("linux-lowlatency-hwe-20.04") %}
+{% do salt['pkg.refresh_db']() %}
+{% set linux_generic = salt['pkg.latest_version']("linux-generic-hwe-20.04") or salt['pkg.version']("linux-generic-hwe-20.04") %}
+{% set linux_lowlatency = salt['pkg.latest_version']("linux-lowlatency-hwe-20.04") or salt['pkg.version']("linux-lowlatency-hwe-20.04") %}
 
 # Update kernel to latest. This should give us Linux 5.13
 {% if linux_generic %}
