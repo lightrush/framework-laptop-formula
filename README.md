@@ -5,6 +5,7 @@ This has only been tested on Ubuntu 20.04.3 (Linux 5.11 and Linux 5.13), on Fram
 
 
 ## CHANGELOG
+- Update kernel before applying AX210.
 - Disable PSR on Linux 5.13 in order to avoid screen tearing.
 - Updated TL;DR command to handle Linux 5.13 and check for AX210.
 - Remove fingerprint reader prebuilt packages if updated fprintd is found.
