@@ -4,7 +4,6 @@
 
 {% do salt['pkg.refresh_db']() %}
 {% set linux_generic = salt['pkg.latest_version']("linux-generic-hwe-20.04") or salt['pkg.version']("linux-generic-hwe-20.04") %}
-{% set linux_lowlatency = salt['pkg.latest_version']("linux-lowlatency-hwe-20.04") or salt['pkg.version']("linux-lowlatency-hwe-20.04") %}
 
 # Update kernel to latest. This should give us Linux 5.13
 {% if linux_generic %}
@@ -14,14 +13,7 @@ intel_ax210_workaround_linux_generic_latest:
     - refresh: True
 {% endif %}
 
-{% if linux_lowlatency %}
-intel_ax210_workaround_linux-lowlatency_latest:
-  pkg.latest:
-    - name: linux-lowlatency-hwe-20.04
-    - refresh: True
-{% endif %}
-
-{% set linux_version = linux_generic or linux_lowlatency %}
+{% set linux_version = linux_generic %}
 
 # Only apply on Linux 5.11. Newer kernels seem to be working
 # better or require different workarounds like firmware upgrades.
