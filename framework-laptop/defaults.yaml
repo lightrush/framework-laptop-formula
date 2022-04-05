@@ -144,3 +144,6 @@ framework-laptop:
     # apply if `desktop_user` is specified and the VMware preferences
     # file exists.
     include: vmware-graphics-acceleration
+
+  grub_cleanup:
+    include: grub-cleanup

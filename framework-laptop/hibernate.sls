@@ -64,12 +64,37 @@ hibernate_swap_fstab:
       - cmd: hibernate_swap_on
 
 {% if swapfile_exists %}
-hibernate_grub_resume:
+
+# Cleanup old-style config.
+
+hibernate_grub_resume_old_config_line:
   file.replace:
     - name: /etc/default/grub
     - pattern: '^GRUB_CMDLINE_LINUX_DEFAULT="\${GRUB_CMDLINE_LINUX_DEFAULT} resume=UUID=.* resume_offset=.*"$'
-    - repl: 'GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} resume=UUID={{resume_uud}} resume_offset={{resume_offset}}"'
-    - append_if_not_found: True
+    - repl: ''
+
+hibernate_grub_resume_old_config:
+  file.replace:
+    - name: /etc/default/grub
+    - pattern: '^(.*)(resume=UUID=[-|\w]+)([\s|"].*)$'
+    - repl: '\g<1>\g<3>'
+    - require:
+      - file: hibernate_grub_resume_old_config_line
+
+hibernate_grub_resume_offset_old_config:
+  file.replace:
+    - name: /etc/default/grub
+    - pattern: '^(.*)(resume_offset=\w+)([\s|"].*)$'
+    - repl: '\g<1>\g<3>'
+    - require:
+      - file: hibernate_grub_resume_old_config_line
+
+# Now do the config
+
+hibernate_grub_resume:
+  file.managed:
+    - name: /etc/default/grub.d/hibernate.cfg
+    - contents: 'GRUB_CMDLINE_LINUX_DEFAULT="${GRUB_CMDLINE_LINUX_DEFAULT} resume=UUID={{resume_uud}} resume_offset={{resume_offset}}"'
     - require:
       - cmd: hibernate_swap_on
 
@@ -78,6 +103,9 @@ hibernate_update_grub:
     - name: update-grub
     - onchanges:
       - file: hibernate_grub_resume
+      - file: hibernate_grub_resume_offset_old_config
+      - file: hibernate_grub_resume_old_config
+      - file: hibernate_grub_resume_old_config_line
 
 hibernate_polkit_enabled:
   file.managed:
