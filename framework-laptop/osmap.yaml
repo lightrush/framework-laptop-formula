@@ -1,18 +1,3 @@
-# Put OS defaults overrides here
-# Example:
-DEADBEEF:
-  # Where's docker on DEADBEEF OS?
-  docker_executable: /deadbeef/bin/docker
-
-Ubuntu:
-  intel_ax210_workaround:
-    include: False
-
-  # For now assume it's only needed on focal
-  touchpad_suspend_workaround:
-    include: False #touchpad-suspend-workaround
-
-
 Manjaro:
   # Can't possibly work with Ubuntu's deb packages and likely isn't
   # needed given that it's a rolling release and probably has recent
