@@ -71,7 +71,7 @@ reader etc., connect to the internet, then run the following:
 wget -O /tmp/framework-laptop-tldr.sh https://raw.githubusercontent.com/lightrush/framework-laptop-formula/main/framework-laptop-tldr.sh && bash /tmp/framework-laptop-tldr.sh
 ```
 
-If you also want [**hibernate**](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#hibernate), you can run the snippet below. By default it enables **suspend-then-hibernate** with 120 minutes delay. That can changed in [`defaults.yaml`](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#override-default-values-in-defaultsyaml).
+If you also want [**hibernate**](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#hibernate), you can run the snippet below, immediately after running the one above. By default it enables **suspend-then-hibernate** with 120 minutes delay. That can changed in [`defaults.yaml`](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#override-default-values-in-defaultsyaml).
 ```bash
 sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate
 ```
