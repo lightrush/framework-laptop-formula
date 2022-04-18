@@ -61,7 +61,9 @@ sudo modprobe iwlwifi
 </details>
 
 
-## [TL;DR, but ideally read the rest if this is your first time](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
+## TL;DR
+
+### Ideally, [read the rest](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq) if this is your first time
 
 In order to setup Ubuntu 20.04 or 22.04 with working WiFi, fingerprint
 reader etc., connect to the internet, then run the following:
