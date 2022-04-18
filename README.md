@@ -87,5 +87,6 @@ Afterwards, you should have:
 - Touchpad suspend workarond
 - Working fingerprint reader
 - Hibernate, if you opted to use it
+- No additional power draw after resume from suspend when usind `s2idle`
 
 For more features like 2/3-finger clicking or changing defaults, [read the rest.](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
