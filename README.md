@@ -5,6 +5,8 @@ This has been tested on Ubuntu 20.04.3, 20.04.4 and 22.04 Beta (Linux 5.11, Linu
 
 
 ## CHANGELOG
+- Add a workaround for a kernel quirk that should improve idle power consumtion by
+about 2-3W after resuming from suspend, when using the `s2idle` sleep mode.
 - Add support for Ubuntu 22.04.
 ...
 
@@ -301,6 +303,13 @@ The `touchpad-suspend-workaround` state applies a workaround for the occasional 
 ### `vmware-graphics-acceleration`
 
 The `vmware-graphics-acceleration` state enables 3D acceleration in VMware Workstation (Player) if its config file was found in the user's directory specified by `desktop_user`, [see](#apply-user-specific-states). The state is a no-op in case a config file wasn't found or `desktop_user` was not defined.
+
+
+### `post-resume-power-draw-workaround`
+
+The `post-resume-power-draw-workaround` state applies a workaround for increased power draw
+after resuming from suspend, when using the `s2idle` sleep mode. This workaround should reduce
+post-suspend idle power usage by about 2-3W.
 
 
 ## Credits

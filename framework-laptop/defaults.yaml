@@ -147,3 +147,6 @@ framework-laptop:
 
   grub_cleanup:
     include: grub-cleanup
+
+  post_resume_power_draw_workaround:
+    include: post-resume-power-draw-workaround
