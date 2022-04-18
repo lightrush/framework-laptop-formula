@@ -155,7 +155,7 @@ And that's why we use Salt.
 
 ### What's a Salt formula?
 
-In its most basic, a Salt formula is a self-contained module of Salt code that can achieve some well defined task, is usually configurable and reusable within other Salt code. That's Salt's terminology, not mine so that's that. This formula is intended to do the things needed to have Ubuntu to work well on the Framework Laptop.
+In its most basic, a Salt formula is a self-contained module of Salt code that can achieve some well defined task, is usually configurable and reusable within other Salt code. That's Salt's terminology, not mine so that's that. This formula is intended to do the things needed to get Ubuntu working well on the Framework Laptop.
 
 
 ### Can I uninstall Salt after applying the formula?
