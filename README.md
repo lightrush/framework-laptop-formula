@@ -203,7 +203,7 @@ sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get -y dist-upgrad
 ### Install Salt
 
 ```bash
-if ! sudo apt-get -y install salt-minion ; then wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh ; fi
+if ! sudo apt-get -y install salt-common ; then wget -O /tmp/bootstrap-salt.sh https://bootstrap.saltproject.io && sudo sh /tmp/bootstrap-salt.sh ; fi
 ```
 
 
