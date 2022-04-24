@@ -8,6 +8,7 @@ This has been tested on Ubuntu 20.04.3, 20.04.4 and 22.04 Beta (Linux 5.11, Linu
 <details>
 <summary>Click to see more...</summary>
 
+- Install HiRes codecs (aptX, LDAC) for PulseAudio to use with Bluetooth devices.
 - Add a workaround for a kernel quirk that should improve idle power consumtion by
 about 2-3W after resuming from suspend, when using the `s2idle` sleep mode.
 - Add support for Ubuntu 22.04.
@@ -83,15 +84,21 @@ Afterwards, you should have:
 
 - 1 second GRUB menu timeout instead of 30 in case you use /boot on LVM
 - Intel HD audio mic TRRS jack workaround
-- Intel AX210 persistent workaround (doesn’t break on update of linux-firmware)
+- Intel AX210 persistent workaround (doesn’t break on update of linux-firmware) (only on Ubuntu 20.04.3)
 - Suspend to RAM
-- TLP installed and enabled on Ubuntu 20.04.
+- TLP installed and enabled (only on Ubuntu 20.04)
 - Touchpad suspend workarond
 - Working fingerprint reader
 - Hibernate, if you opted to use it
 - No additional power draw after resume from suspend when usind `s2idle`
+- HiRes codecs (LDAC, aptX) for Bluetooth devices
 
 For more features like 2/3-finger clicking or changing defaults, [read the rest.](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq)
+
+
+## Updates
+
+This Salt formula is designed to be idempotent. That is, it can be re-run over and over without causing unexpected problems. In fact that's the intended path for using newer versions. Simply download the latest one and re-run it. For examle when some workaround is no longer needed, running the latest version of the formula should remove it automatically. When some new was added that you want - re-download and re-run it.
 
 
 ## FAQ
@@ -335,6 +342,11 @@ The `vmware-graphics-acceleration` state enables 3D acceleration in VMware Works
 The `post-resume-power-draw-workaround` state applies a workaround for increased power draw
 after resuming from suspend, when using the `s2idle` sleep mode. This workaround should reduce
 post-suspend idle power usage by about 2-3W.
+
+
+### `pulseaudio-bt-hires-codecs`
+
+The `pulseaudio-bt-hires-codecs` state installs HiRes codecs such as LDAC and aptX for PulseAudio to use with higher-end Bluetooth audio devices. Tested with FiiO BTR3K and verified it uses aptX once the state is applied.
 
 
 ## Credits

@@ -150,3 +150,6 @@ framework-laptop:
 
   post_resume_power_draw_workaround:
     include: post-resume-power-draw-workaround
+
+  pulseaudio_bt_hires_codecs:
+    include: pulseaudio-bt-hires-codecs
