@@ -8,6 +8,7 @@ This has been tested on Ubuntu 20.04.3, 20.04.4 and 22.04 Beta (Linux 5.11, Linu
 <details>
 <summary>Click to see more...</summary>
 
+- Simplify hibernate by adding it as an option to the tldr script.
 - Install HiRes codecs (aptX, LDAC) for PulseAudio to use with Bluetooth devices.
 - Add a workaround for a kernel quirk that should improve idle power consumtion by
 about 2-3W after resuming from suspend, when using the `s2idle` sleep mode.
@@ -66,16 +67,18 @@ sudo modprobe iwlwifi
 
 ### Ideally, [read the rest](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#faq) if this is your first time
 
-In order to setup Ubuntu 20.04 or 22.04 with working WiFi, fingerprint
-reader etc., connect to the internet, then run the following:
+In order to setup Ubuntu 20.04 or 22.04 with most common config and workarounds needed for the Framework Laptop, connect to the internet, then run the following:
 ```bash
 wget -O /tmp/framework-laptop-tldr.sh https://raw.githubusercontent.com/lightrush/framework-laptop-formula/main/framework-laptop-tldr.sh && bash /tmp/framework-laptop-tldr.sh
 ```
 
-If you also want [**hibernate**](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#hibernate), you can run the snippet below, immediately after running the one above. By default it enables **suspend-then-hibernate** with 120 minutes delay. That can changed in [`defaults.yaml`](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#override-default-values-in-defaultsyaml).
+If you also want [**hibernate**](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#hibernate), run the following instead:
 ```bash
-sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate && sudo salt-call -l error --local --file-root="$(pwd)/framework-laptop-formula-main" state.apply framework-laptop.hibernate
+wget -O /tmp/framework-laptop-tldr.sh https://raw.githubusercontent.com/lightrush/framework-laptop-formula/main/framework-laptop-tldr.sh && bash /tmp/framework-laptop-tldr.sh --enable-hibernate
 ```
+
+By default it enables **suspend-then-hibernate** with 120 minutes delay. That can changed in [`defaults.yaml`](https://github.com/lightrush/framework-laptop-formula/blob/main/README.md#override-default-values-in-defaultsyaml). The hibernate function also creates a swapfile that's as big as your RAM plus 1GB.
+
 **NB: You have to disable Secure Boot for hibernate to function.**
 
 Now reboot your Framework.
