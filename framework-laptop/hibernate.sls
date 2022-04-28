@@ -2,10 +2,10 @@
 
 {% set swapfile = "/swapfile" %}
 {% set swapfile_exists = salt['file.file_exists'](swapfile) %}
-{% set mem_size = salt['cmd.shell']("echo $(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE) / (1024 * 1024 * 1024)))") %}
+{% set mem_size = salt['cmd.shell']("echo $(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE) / (1024 * 1024 * 1024)))") | int %}
 
 {% if swapfile_exists %}
-{% set swap_size = salt['cmd.shell']("echo $((($(swapon -s | grep '/swapfile ' | tr -s '[:blank:]' ',' | cut -d ',' -f 3) / 1024 + 1) / 1024))") %}
+{% set swap_size = salt['cmd.shell']("echo $((($(swapon -s | grep '/swapfile ' | tr -s '[:blank:]' ',' | cut -d ',' -f 3) / 1024 + 1) / 1024))") | int %}
 {% if swap_size <= mem_size %}
 hibernate_swap_off:
   cmd.run:
@@ -19,7 +19,7 @@ hibernate_kill_swap:
 {% endif %}
 {% endif %}
 
-{% set swap_size = mem_size | int + 1 %}
+{% set swap_size = mem_size + 1 %}
 
 {% if swapfile_exists %}
 {% set resume_offset = salt['cmd.shell']("filefrag -v " ~ swapfile ~ " | grep '^ *0:'  | tr -s '[:blank:]' ',' | cut -d',' -f5 | tr -d '.'") %}
