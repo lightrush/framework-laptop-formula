@@ -8,6 +8,7 @@ This has been tested on Ubuntu 20.04.3, 20.04.4 and 22.04 Beta (Linux 5.11, Linu
 <details>
 <summary>Click to see more...</summary>
 
+- Fix hibernate swap removal in certain cases.
 - Simplify hibernate by adding it as an option to the tldr script.
 - Install HiRes codecs (aptX, LDAC) for PulseAudio to use with Bluetooth devices.
 - Add a workaround for a kernel quirk that should improve idle power consumtion by
