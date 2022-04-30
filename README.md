@@ -8,6 +8,7 @@ This has been tested on Ubuntu 20.04.3, 20.04.4 and 22.04 Beta (Linux 5.11, Linu
 <details>
 <summary>Click to see more...</summary>
 
+- Silence spurious errors on 22.04 due to Python packaging.
 - Fix hibernate swap removal in certain cases.
 - Simplify hibernate by adding it as an option to the tldr script.
 - Install HiRes codecs (aptX, LDAC) for PulseAudio to use with Bluetooth devices.
@@ -237,7 +238,7 @@ Clone this formula or download it and extract it somewhere.
 
 From the root directory of the formula, where this README.md is, run:
 ```bash
-sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop
+sudo salt-call -l quiet --local --file-root="$(pwd)" state.apply framework-laptop
 ```
 
 Reboot your computer after applying.
@@ -247,12 +248,12 @@ Reboot your computer after applying.
 
 From the root directory of the formula, where this README.md is, run:
 ```bash
-sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.[STATE NAME]
+sudo salt-call -l quiet --local --file-root="$(pwd)" state.apply framework-laptop.[STATE NAME]
 ```
 
 Example:
 ```bash
-sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
+sudo salt-call -l quiet --local --file-root="$(pwd)" state.apply framework-laptop.hibernate
 ```
 
 
@@ -267,7 +268,7 @@ Some states are parametrized and have default values for those parameters specif
 in `defaults.yaml`. Those values can be overriden in various ways. One is via the
 command line, by specifying override values in pillar, like so:
 ```bash
-sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.mem-sleep-default \
+sudo salt-call -l quiet --local --file-root="$(pwd)" state.apply framework-laptop.mem-sleep-default \
     pillar='{"framework-laptop":{"mem_sleep_default": "s2idle"}}'
 ```
 
@@ -276,12 +277,12 @@ sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-lapto
 
 Some states modify user-specific config like touchpad and mouse settings. For those we have to specify the user this config should be applied to. To apply those to the current user you can do:
 ```bash
-sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"${USER}"' }}"
+sudo salt-call -l quiet --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"${USER}"' }}"
 ```
 
 To apply config for user `different_user`:
 ```bash
-sudo salt-call -l error --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"different_user"' }}"
+sudo salt-call -l quiet --local --file-root="$(pwd)" state.apply framework-laptop.touchpad-click-method pillar="{ 'desktop_user': { 'name': '"different_user"' }}"
 ```
 
 If you try to apply a user-specific state without specifying a `desktop_user` as shown above, you'd get an error.
