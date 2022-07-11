@@ -366,6 +366,6 @@ The `pulseaudio-bt-hires-codecs` state installs HiRes codecs such as LDAC and ap
 
 ## Credits
 
-Framework DIY Linux community. Lots of things. https://community.frame.work/c/diy-edition/linux/
+Framework DIY Linux community. Lots of things. https://community.frame.work/c/framework-laptop/linux/91
 
 Henry Luengas. Python utility for deleting fingerprints from reader. https://github.com/hluengas/framework_scripts
