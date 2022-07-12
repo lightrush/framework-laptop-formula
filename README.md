@@ -197,18 +197,18 @@ If you verify any of these states, please open a pull request updating the follo
 | fingerprint-reader           | yes          | yes          |                                                                      |
 | framework-sec-trim-enable    | yes          | yes          |                                                                      |
 | grub-decrease-menu-timeout   | yes          | yes          |                                                                      |
-| hibernate                    | yes          |              | [yes](https://github.com/lightrush/framework-laptop-formula/pull/12) |
+| hibernate                    | yes          | yes          | [yes](https://github.com/lightrush/framework-laptop-formula/pull/12) |
 | intel-audio-workaround       | yes          | yes          |                                                                      |
 | intel-ax210-workaround       | yes          | yes          |                                                                      |
 | intel-xe-tearing-workaround  |              | yes          |                                                                      |
 | mem-sleep-default            | yes          | yes          |                                                                      |
-| mouse-accel-profile          | yes          |              |                                                                      |
+| mouse-accel-profile          | yes          | yes          |                                                                      |
 | tlp                          | yes          | yes          |                                                                      |
-| touchpad-click-method        | yes          |              |                                                                      |
+| touchpad-click-method        | yes          | yes          |                                                                      |
 | touchpad-suspend-workaround  | yes          | yes          |                                                                      |
 | post-resume-power-draw       |              | yes          |                                                                      |
 | pulseaudio-bt-hires-codecs   |              | yes          |                                                                      |
-| vmware-graphics-acceleration | yes          |              |                                                                      |
+| vmware-graphics-acceleration | yes          | yes          |                                                                      |
 
 ### How do I use this?
 
