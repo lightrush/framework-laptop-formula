@@ -197,7 +197,7 @@ If you verify any of these states, please open a pull request updating the follo
 | fingerprint-reader           | yes          | yes          |                                                                      |
 | framework-sec-trim-enable    | yes          | yes          |                                                                      |
 | grub-decrease-menu-timeout   | yes          | yes          |                                                                      |
-| hibernate                    | yes          | yes          | [yes](https://github.com/lightrush/framework-laptop-formula/pull/12) |
+| hibernate                    | yes          |              | [yes](https://github.com/lightrush/framework-laptop-formula/pull/12) |
 | intel-audio-workaround       | yes          | yes          |                                                                      |
 | intel-ax210-workaround       | yes          | yes          |                                                                      |
 | intel-xe-tearing-workaround  |              | yes          |                                                                      |
