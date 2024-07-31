@@ -8,6 +8,7 @@ This has been tested on Ubuntu 20.04.3, 20.04.4 and 22.04 Beta (Linux 5.11, Linu
 <details>
 <summary>Click to see more...</summary>
 
+- Update hibernate support for 24.04.
 - Silence spurious errors on 22.04 due to Python packaging.
 - Fix hibernate swap removal in certain cases.
 - Simplify hibernate by adding it as an option to the tldr script.

@@ -107,6 +107,27 @@ hibernate_update_grub:
       - file: hibernate_grub_resume_old_config
       - file: hibernate_grub_resume_old_config_line
 
+{% if salt['grains.get' ]("osmajorrelease") | int >= 24 %}
+
+hibernate_polkit_localauthority_installed:
+  pkg.installed:
+    - name: polkitd-pkla
+    - refresh: True
+    - retry: True
+
+{% set majmin = (salt['cmd.shell']('lsblk -o "MAJ:MIN","MOUNTPOINTS" -J| python3 -c "import json,sys;majmin = [x for x in json.load(sys.stdin)[\'blockdevices\'] if \'/\' in x[\'mountpoints\']][0][\'maj:min\'].split(\':\');print(json.dumps(majmin))"') | load_json) %}
+
+hibernate_tmpfiles_resume:
+  file.managed:
+    - name: /etc/tmpfiles.d/hibernation_resume.conf
+    - source: salt://framework-laptop/files/hibernation_resume.conf
+    - template: jinja
+    - context:
+      major: {{ majmin[0] }}
+      minor: {{ majmin[1] }}
+
+{% endif %}
+
 hibernate_polkit_enabled:
   file.managed:
     - name: /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla
